@@ -11,7 +11,6 @@ import 'package:tiptop_v2/models/boot.dart';
 import 'package:tiptop_v2/models/enums.dart';
 import 'package:tiptop_v2/models/models.dart';
 import 'package:tiptop_v2/models/user.dart';
-import 'package:tiptop_v2/providers/addresses_provider.dart';
 import 'package:tiptop_v2/utils/helper.dart';
 import 'package:tiptop_v2/utils/http_exception.dart';
 import 'package:tiptop_v2/utils/location_helper.dart';
@@ -139,7 +138,7 @@ class AppProvider with ChangeNotifier {
 
   Future<void> bootActions() async {
     initInstaBug();
-    await fetchBootConfigurations();
+    // await fetchBootConfigurations();
     await fetchLocale();
 
     //Init Analytics
@@ -149,7 +148,7 @@ class AppProvider with ChangeNotifier {
     await checkIfIsFirstOpen();
     isLocationPermissionGranted = await getLocationPermissionStatus();
 
-    await AddressesProvider().fetchSelectedAddress();
+    // await AddressesProvider().fetchSelectedAddress();
   }
 
   Future<void> changeLanguage(String localeString) async {
@@ -360,40 +359,40 @@ class AppProvider with ChangeNotifier {
   BootData bootData;
   static AppChannel appDefaultChannel;
 
-  Future<void> fetchBootConfigurations() async {
-    mobileAppDetails = await loadMobileAppDetails();
-    final Map<String, String> body = {
-      'build_number': mobileAppDetails['buildNumber'],
-      'platform': mobileAppDetails['device']['platform'],
-    };
-    final responseData = await get(endpoint: 'boot', body: body);
-    bootData = BootData.fromJson(responseData["data"]);
-    bootConfigs = bootData.bootConfigs;
-    appDefaultChannel = bootData.defaultChannel ?? AppChannel.MARKET;
-    print('selected channel is:');
-    print(appDefaultChannel);
-    print("bootConfigs");
-    if (bootConfigs != null) {
-      print("bootConfigs.updateMethod");
-      print(bootConfigs.updateMethod);
-      if (bootConfigs.updateMethod == 2) {
-        print("HARD");
-        isForceUpdateEnabled = true;
-      } else if (bootConfigs.updateMethod == 1) {
-        print("SOFT");
-        isSoftUpdateEnabled = true;
-      }
-    }
-
-    /*bool isStorageCleared = storageActions.checkKey(key: 'storage_cleared');
-    if (!isStorageCleared) {
-      print('APP YIELD! your locale storage has been cleared!');
-      LocalStorage().clear();
-      // notifyListeners();
-    }*/
-
-    // notifyListeners();
-  }
+  // Future<void> fetchBootConfigurations() async {
+  //   mobileAppDetails = await loadMobileAppDetails();
+  //   final Map<String, String> body = {
+  //     'build_number': mobileAppDetails['buildNumber'],
+  //     'platform': mobileAppDetails['device']['platform'],
+  //   };
+  //   final responseData = await get(endpoint: 'boot', body: body);
+  //   bootData = BootData.fromJson(responseData["data"]);
+  //   bootConfigs = bootData.bootConfigs;
+  //   appDefaultChannel = bootData.defaultChannel ?? AppChannel.MARKET;
+  //   print('selected channel is:');
+  //   print(appDefaultChannel);
+  //   print("bootConfigs");
+  //   if (bootConfigs != null) {
+  //     print("bootConfigs.updateMethod");
+  //     print(bootConfigs.updateMethod);
+  //     if (bootConfigs.updateMethod == 2) {
+  //       print("HARD");
+  //       isForceUpdateEnabled = true;
+  //     } else if (bootConfigs.updateMethod == 1) {
+  //       print("SOFT");
+  //       isSoftUpdateEnabled = true;
+  //     }
+  //   }
+  //
+  //   /*bool isStorageCleared = storageActions.checkKey(key: 'storage_cleared');
+  //   if (!isStorageCleared) {
+  //     print('APP YIELD! your locale storage has been cleared!');
+  //     LocalStorage().clear();
+  //     // notifyListeners();
+  //   }*/
+  //
+  //   // notifyListeners();
+  // }
 
 /*  Future<void> sendAppFirstVisitEvent() async {
     print('Sending app open event!');

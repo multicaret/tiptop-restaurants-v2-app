@@ -2,15 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiptop_v2/UI/pages/food/food_search_page.dart';
-import 'package:tiptop_v2/UI/pages/home_page.dart';
-import 'package:tiptop_v2/UI/pages/market/market_search_page.dart';
-import 'package:tiptop_v2/UI/pages/profile/profile_page.dart';
-import 'package:tiptop_v2/UI/pages/support_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
-import 'package:tiptop_v2/UI/widgets/cart/cart_fab.dart';
+import 'package:tiptop_v2/UI/widgets/cart_fab.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/providers/home_provider.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
@@ -82,26 +76,26 @@ class _AppWrapperState extends State<AppWrapper> {
 
   static List<Map<String, dynamic>> _getCupertinoTabsList({bool channelIsMarket = true}) {
     return [
-      {
-        'title': 'Home',
-        'page': HomePage(),
-        'icon': LineAwesomeIcons.home,
-      },
-      {
-        'title': 'Search',
-        'page': channelIsMarket ? MarketSearchPage() : FoodSearchPage(),
-        'icon': LineAwesomeIcons.search,
-      },
-      {
-        'title': 'Support',
-        'page': SupportPage(),
-        'icon': LineAwesomeIcons.headset,
-      },
-      {
-        'title': 'Profile',
-        'page': ProfilePage(),
-        'icon': LineAwesomeIcons.user_cog,
-      },
+      // {
+      //   'title': 'Home',
+      //   'page': HomePage(),
+      //   'icon': LineAwesomeIcons.home,
+      // },
+      // {
+      //   'title': 'Search',
+      //   'page': channelIsMarket ? MarketSearchPage() : FoodSearchPage(),
+      //   'icon': LineAwesomeIcons.search,
+      // },
+      // {
+      //   'title': 'Support',
+      //   'page': SupportPage(),
+      //   'icon': LineAwesomeIcons.headset,
+      // },
+      // {
+      //   'title': 'Profile',
+      //   'page': ProfilePage(),
+      //   'icon': LineAwesomeIcons.user_cog,
+      // },
     ];
   }
 
@@ -118,7 +112,7 @@ class _AppWrapperState extends State<AppWrapper> {
               backgroundColor: AppColors.white,
               controller: _cupertinoTabController,
               tabBar: CupertinoTabBar(
-                onTap: (index) => onTabItemTapped(index, homeProvider),
+                // onTap: (index) => onTabItemTapped(index, homeProvider),
                 currentIndex: currentTabIndex,
                 backgroundColor: AppColors.primary,
                 activeColor: AppColors.secondary,
@@ -129,7 +123,7 @@ class _AppWrapperState extends State<AppWrapper> {
                 return CupertinoTabView(
                   navigatorKey: _tabNavKeys[index],
                   builder: (BuildContext context) {
-                    return _getCupertinoTabsList(channelIsMarket: homeProvider.channelIsMarket)[index]['page'];
+                    // return _getCupertinoTabsList(channelIsMarket: homeProvider.channelIsMarket)[index]['page'];
                   },
                   onGenerateRoute: (settings) {
                     return MaterialPageRoute(

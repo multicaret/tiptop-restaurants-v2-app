@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tiptop_v2/UI/pages/location_permission_page.dart';
-import 'package:tiptop_v2/UI/pages/otp/otp_choose_method_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/utils/constants.dart';
@@ -44,14 +43,14 @@ class WalkthroughPage extends StatelessWidget {
                 const SizedBox(height: 40),
                 AppButtons.primary(
                   onPressed: () {
-                    Navigator.of(context).pushReplacementNamed(OTPChooseMethodPage.routeName);
+                    // Navigator.of(context).pushReplacementNamed(OTPChooseMethodPage.routeName);
                   },
                   child: Text(Translations.of(context).get('Register')),
                 ),
                 const SizedBox(height: 40),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(OTPChooseMethodPage.routeName);
+                    // Navigator.of(context).pushNamed(OTPChooseMethodPage.routeName);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
