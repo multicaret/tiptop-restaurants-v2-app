@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.trytiptop.tiptop_v2">
+    package="app.trytiptop.restaurants1">
    <application
         android:name=".MyFlutterApplication"
-        android:label="tiptop_v2"
+        android:label="tiptop_restaurant_v2"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.mixpanel.android.MPConfig.EventsEndpoint"
                   android:value="https://api-eu.mixpanel.com/track?ip=1" />

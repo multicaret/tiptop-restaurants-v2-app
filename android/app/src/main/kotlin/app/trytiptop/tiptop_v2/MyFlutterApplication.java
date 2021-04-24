@@ -1,4 +1,4 @@
-package app.trytiptop.tiptop_v2;
+package app.trytiptop.restaurants1;
 
 import com.instabug.instabugflutter.InstabugFlutterPlugin;
 import com.zoho.commons.Fonts;
@@ -22,12 +22,12 @@ public class MyFlutterApplication extends FlutterApplication {
 //                "82b5d29b0a4494bc9258e2562578037e",
 //                invocationEvents);
 
-        InitConfig initConfig = new InitConfig();
-        initConfig.setFont(Fonts.MEDIUM, "fonts/neo_sans_arabic_medium.ttf");
-        initConfig.setFont(Fonts.REGULAR, "fonts/neo_sans_arabic_regular.ttf");
-
-        ZohoSalesIQ.init(this, appKey, accessKey, initConfig, null);
-        ZohoSalesIQ.syncThemeWithOS(false);
-        ZohoLiveChat.Conversation.setVisibility(false);
+//        InitConfig initConfig = new InitConfig();
+//        initConfig.setFont(Fonts.MEDIUM, "fonts/neo_sans_arabic_medium.ttf");
+//        initConfig.setFont(Fonts.REGULAR, "fonts/neo_sans_arabic_regular.ttf");
+//
+//        ZohoSalesIQ.init(this, appKey, accessKey, initConfig, null);
+//        ZohoSalesIQ.syncThemeWithOS(false);
+//        ZohoLiveChat.Conversation.setVisibility(false);
     }
 }
