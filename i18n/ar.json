@@ -5,5 +5,8 @@
   "Invalid Form": "البيانات خاطئة",
   "Please enter your account information": "الرجاء إدخال معلومات حسابك",
   "An Error Occurred": "حدث خطأ",
-  "Login Successful": "تم تسجيل الدخول بنجاح"
+  "Login Successful": "تم تسجيل الدخول بنجاح",
+  "Menu": "القائمة",
+  "Orders": "الطلبات",
+  "Drivers": "السائقين"
 }

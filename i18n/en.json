@@ -5,5 +5,8 @@
   "Invalid Form": "Invalid Form",
   "Please enter your account information": "Please enter your account information",
   "An Error Occurred": "An Error Occurred",
-  "Login Successful": "Login Successful"
+  "Login Successful": "Login Successful",
+  "Menu": "Menu",
+  "Orders": "Orders",
+  "Drivers": "Drivers"
 }
