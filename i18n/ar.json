@@ -8,5 +8,14 @@
   "Login Successful": "تم تسجيل الدخول بنجاح",
   "Menu": "القائمة",
   "Orders": "الطلبات",
-  "Drivers": "السائقين"
+  "Drivers": "السائقين",
+  "Profile": "الملف الشخصي",
+  "Logout":"تسجيل الخروج",
+  "Edit Restaurant Profile":"تعديل ملف المطعم",
+  "About App": "حول التطبيق",
+  "Privacy Policy": "سياسة الخصوصية",
+  "Contact Us": "اتصل بنا",
+  "Change Language": "تغيير اللغة",
+  "Customer Service": "خدمة الزبائن",
+  "Version": "الاصدار"
 }

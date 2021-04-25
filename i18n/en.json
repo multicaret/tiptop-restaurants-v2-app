@@ -8,5 +8,14 @@
   "Login Successful": "Login Successful",
   "Menu": "Menu",
   "Orders": "Orders",
-  "Drivers": "Drivers"
+  "Drivers": "Drivers",
+  "Profile": "Profile",
+  "Logout": "Logout",
+  "Edit Restaurant Profile":"Edit Restaurant Profile",
+  "About App": "About App",
+  "Privacy Policy": "Privacy Policy",
+  "Contact Us": "Contact Us",
+  "Change Language": "Change Language",
+  "Customer Service": "Customer Service",
+  "Version": "Version"
 }
