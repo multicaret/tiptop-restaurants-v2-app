@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:tiptop_v2/UI/pages/profile/profile_page.dart';
+import 'package:tiptop_v2/UI/pages/profile_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/utils/styles/app_icons.dart';
