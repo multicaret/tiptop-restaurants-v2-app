@@ -1,5 +1,53 @@
 import 'models.dart';
 
+class AuthRequestData {
+  User user;
+  String accessToken;
+  Approval isApproved;
+  Approval isSuspended;
+
+  AuthRequestData({
+    this.user,
+    this.accessToken,
+    this.isApproved,
+    this.isSuspended,
+  });
+
+  factory AuthRequestData.fromJson(Map<String, dynamic> json) => AuthRequestData(
+        user: User.fromJson(json["user"]),
+        accessToken: json["accessToken"],
+        isApproved: json["isApproved"] == null ? null : Approval.fromJson(json["isApproved"]),
+        isSuspended: json["isSuspended"] == null ? null : Approval.fromJson(json["isSuspended"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "user": user.toJson(),
+        "accessToken": accessToken,
+        "isApproved": isApproved.toJson(),
+        "isSuspended": isSuspended.toJson(),
+      };
+}
+
+class Approval {
+  bool enabled;
+  String message;
+
+  Approval({
+    this.enabled,
+    this.message,
+  });
+
+  factory Approval.fromJson(Map<String, dynamic> json) => Approval(
+        enabled: json["enabled"],
+        message: json["message"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "enabled": enabled,
+        "message": message,
+      };
+}
+
 class User {
   User({
     this.id,

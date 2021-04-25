@@ -161,7 +161,7 @@ class AppProvider with ChangeNotifier {
   Future<String> endpointRoot() async {
     var locale = await this.fetchLocale();
     String localeCode = locale.toString() == 'fa' ? 'ku' : locale.toString();
-    return DOMAIN + localeCode + '/api/v1/';
+    return DOMAIN + localeCode + '/api/restaurants/v1/';
   }
 
   Future<dynamic> get({
@@ -306,6 +306,33 @@ class AppProvider with ChangeNotifier {
       print('token');
       print(token);
     }
+    notifyListeners();
+  }
+
+  Future<void> login(String email, String password) async {
+    final dynamic responseData = await this.post(
+      endpoint: 'login',
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
+
+    AuthRequestData authRequestData = AuthRequestData.fromJson(responseData['data']);
+    Approval approval = authRequestData.isApproved;
+    if (approval.enabled) {
+      throw HttpException(title: "Approval Needed", message: approval.message);
+    }
+    Approval suspension = authRequestData.isSuspended;
+    if (suspension.enabled) {
+      throw HttpException(title: "Account Suspended", message: suspension.message);
+    }
+
+    updateUserData(authRequestData.user, authRequestData.accessToken).then((status) {
+      print("Successfully stored token and user id");
+    }).catchError((error) {
+      throw error;
+    });
     notifyListeners();
   }
 

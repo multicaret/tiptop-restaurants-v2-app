@@ -1,74 +1,123 @@
 import 'package:flutter/material.dart';
-import 'package:tiptop_v2/UI/pages/location_permission_page.dart';
+import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
+import 'package:tiptop_v2/UI/widgets/UI/input/app_text_field.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
+import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/utils/constants.dart';
-import 'package:tiptop_v2/utils/location_helper.dart';
+import 'package:tiptop_v2/utils/helper.dart';
 import 'package:tiptop_v2/utils/styles/app_buttons.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
 import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 
-import 'package:tiptop_v2/UI/app_wrapper.dart';
-
-class WalkthroughPage extends StatelessWidget {
+class WalkthroughPage extends StatefulWidget {
   static const routeName = '/walkthrough';
+
+  @override
+  _WalkthroughPageState createState() => _WalkthroughPageState();
+}
+
+class _WalkthroughPageState extends State<WalkthroughPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  Map<String, String> loginData = {
+    'email': '',
+    'password': '',
+  };
+
+  bool _isLoading = false;
+  AppProvider appProvider;
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    appProvider = Provider.of<AppProvider>(context);
 
     return AppScaffold(
       bodyPadding: const EdgeInsets.symmetric(horizontal: screenHorizontalPadding),
       bgColor: AppColors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Image.asset(
-            'assets/images/tiptop-logo.png',
-            width: screenSize.width / 2.5,
-          ),
-          Container(
-            child: Column(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    getLocationPermissionStatus().then((isGranted) {
-                      Navigator.of(context).pushReplacementNamed(isGranted ? AppWrapper.routeName : LocationPermissionPage.routeName);
-                    });
-                  },
-                  child: Text(
-                    Translations.of(context).get('Continue Without Login'),
-                  ),
-                ),
-                const SizedBox(height: 40),
-                AppButtons.primary(
-                  onPressed: () {
-                    // Navigator.of(context).pushReplacementNamed(OTPChooseMethodPage.routeName);
-                  },
-                  child: Text(Translations.of(context).get('Register')),
-                ),
-                const SizedBox(height: 40),
-                TextButton(
-                  onPressed: () {
-                    // Navigator.of(context).pushNamed(OTPChooseMethodPage.routeName);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(Translations.of(context).get('Already have an account?')),
-                      const SizedBox(width: 5),
-                      Text(
-                        Translations.of(context).get('Login'),
-                        style: AppTextStyles.bodySecondaryDark,
-                      ),
-                    ],
-                  ),
-                )
-              ],
+      hasOverlayLoader: _isLoading,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 40),
+              child: Image.asset(
+                'assets/images/tiptop-logo.png',
+                width: screenSize.width / 2.5,
+              ),
             ),
-          ),
-        ],
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    Translations.of(context).get('Login'),
+                    style: AppTextStyles.h1,
+                  ),
+                  SizedBox(height: 12),
+                  Text(Translations.of(context).get('Please enter your account information')),
+                  SizedBox(height: 50),
+                  AppTextField(
+                    labelText: 'Email',
+                    textDirection: TextDirection.ltr,
+                    initialValue: 'demo@trytiptop.app',
+                    onSaved: (value) {
+                      loginData['email'] = value;
+                    },
+                  ),
+                  AppTextField(
+                    labelText: 'Password',
+                    isPassword: true,
+                    textDirection: TextDirection.ltr,
+                    initialValue: 'secret',
+                    onSaved: (value) {
+                      loginData['password'] = value;
+                    },
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 30),
+            AppButtons.primary(
+              child: Text(Translations.of(context).get('Login')),
+              onPressed: _isLoading ? null : _submit,
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> _submit() async {
+    String msg;
+    if (!_formKey.currentState.validate()) {
+      msg = Translations.of(context).get('Invalid Form');
+      showToast(msg: msg);
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+    _formKey.currentState.save();
+    try {
+      await appProvider.login(loginData['email'], loginData['password']);
+      print(loginData['email']);
+      print(loginData['password']);
+      msg = Translations.of(context).get('Login Successful');
+      showToast(msg: msg);
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (error) {
+      msg = Translations.of(context).get('An Error Occurred');
+      showToast(msg: msg);
+      setState(() {
+        _isLoading = false;
+      });
+      throw error;
+    }
   }
 }
