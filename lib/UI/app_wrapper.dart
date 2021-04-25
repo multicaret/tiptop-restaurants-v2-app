@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:tiptop_v2/UI/pages/drivers_page.dart';
+import 'package:tiptop_v2/UI/pages/menu_page.dart';
+import 'package:tiptop_v2/UI/pages/orders_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
-import 'package:tiptop_v2/UI/widgets/cart_fab.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/providers/home_provider.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
@@ -74,28 +77,23 @@ class _AppWrapperState extends State<AppWrapper> {
     super.didChangeDependencies();
   }
 
-  static List<Map<String, dynamic>> _getCupertinoTabsList({bool channelIsMarket = true}) {
+  static List<Map<String, dynamic>> _getCupertinoTabsList() {
     return [
-      // {
-      //   'title': 'Home',
-      //   'page': HomePage(),
-      //   'icon': LineAwesomeIcons.home,
-      // },
-      // {
-      //   'title': 'Search',
-      //   'page': channelIsMarket ? MarketSearchPage() : FoodSearchPage(),
-      //   'icon': LineAwesomeIcons.search,
-      // },
-      // {
-      //   'title': 'Support',
-      //   'page': SupportPage(),
-      //   'icon': LineAwesomeIcons.headset,
-      // },
-      // {
-      //   'title': 'Profile',
-      //   'page': ProfilePage(),
-      //   'icon': LineAwesomeIcons.user_cog,
-      // },
+      {
+        'title': 'Menu',
+        'page': MenuPage(),
+        'icon': LineAwesomeIcons.book_open,
+      },
+      {
+        'title': 'Orders',
+        'page': OrdersPage(),
+        'icon': LineAwesomeIcons.th_list,
+      },
+      {
+        'title': 'Drivers',
+        'page': DriversPage(),
+        'icon': LineAwesomeIcons.motorcycle,
+      },
     ];
   }
 
@@ -123,7 +121,7 @@ class _AppWrapperState extends State<AppWrapper> {
                 return CupertinoTabView(
                   navigatorKey: _tabNavKeys[index],
                   builder: (BuildContext context) {
-                    // return _getCupertinoTabsList(channelIsMarket: homeProvider.channelIsMarket)[index]['page'];
+                    return _getCupertinoTabsList()[index]['page'];
                   },
                   onGenerateRoute: (settings) {
                     return MaterialPageRoute(
@@ -134,7 +132,7 @@ class _AppWrapperState extends State<AppWrapper> {
               },
             ),
           ),
-          CartFAB(),
+          // CartFAB(),
         ],
       ),
     );

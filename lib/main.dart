@@ -13,7 +13,6 @@ import 'package:tiptop_v2/utils/styles/app_colors.dart';
 import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 
 import 'UI/app_wrapper.dart';
-import 'UI/pages/location_permission_page.dart';
 import 'UI/splash_screen.dart';
 import 'force_update_view.dart';
 import 'i18n/translations.dart';
@@ -137,12 +136,10 @@ class _MyAppState extends State<MyApp> {
     }
     return app.localeSelected
         ? app.isAuth
-            ? !app.isLocationPermissionGranted
-                ? LocationPermissionPage()
-                : AppWrapper()
+            ? AppWrapper()
             : FutureBuilder(
                 future: _autoLoginFuture,
-                builder: (c, authResultSnapshot) =>
+                builder: (ctx, authResultSnapshot) =>
                     authResultSnapshot.connectionState == ConnectionState.waiting ? SplashScreen() : WalkthroughPage(),
               )
         : LanguageSelectPage();
