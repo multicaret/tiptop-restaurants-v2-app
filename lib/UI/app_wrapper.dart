@@ -6,8 +6,8 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/pages/drivers_page.dart';
 import 'package:tiptop_v2/UI/pages/menu_page.dart';
-import 'package:tiptop_v2/UI/pages/orders_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
+import 'package:tiptop_v2/UI/widgets/orders_fab.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/providers/home_provider.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
@@ -51,12 +51,12 @@ class _AppWrapperState extends State<AppWrapper> {
         icon: Padding(
           padding: i == tabWithEndPaddingIndex
               ? isRTL
-                  ? EdgeInsets.only(left: tabWidth / 2)
-                  : EdgeInsets.only(right: tabWidth / 2)
+                  ? EdgeInsets.only(left: tabWidth / 4)
+                  : EdgeInsets.only(right: tabWidth / 4)
               : i == tabWithStartPaddingIndex
                   ? isRTL
-                      ? EdgeInsets.only(right: tabWidth / 2)
-                      : EdgeInsets.only(left: tabWidth / 2)
+                      ? EdgeInsets.only(right: tabWidth / 4)
+                      : EdgeInsets.only(left: tabWidth / 4)
                   : EdgeInsets.all(0),
           child: Icon(
             _cupertinoTabsList[i]['icon'],
@@ -82,12 +82,7 @@ class _AppWrapperState extends State<AppWrapper> {
       {
         'title': 'Menu',
         'page': MenuPage(),
-        'icon': LineAwesomeIcons.book_open,
-      },
-      {
-        'title': 'Orders',
-        'page': OrdersPage(),
-        'icon': LineAwesomeIcons.th_list,
+        'icon': LineAwesomeIcons.utensils,
       },
       {
         'title': 'Drivers',
@@ -132,7 +127,7 @@ class _AppWrapperState extends State<AppWrapper> {
               },
             ),
           ),
-          // CartFAB(),
+          OrdersFAB(),
         ],
       ),
     );
