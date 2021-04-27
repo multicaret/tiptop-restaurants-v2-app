@@ -18,7 +18,6 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
     'delivery_time': null,
     'minimum_order': null,
     'delivery_fee': null,
-    'covered_area_param': null,
     'phone': null,
   };
 
@@ -54,13 +53,6 @@ class _EditRestaurantPageState extends State<EditRestaurantPage> {
                 initialValue: formData['delivery_fee'],
                 onSaved: (value) {
                   formData['delivery_fee'] = value;
-                },
-              ),
-              AppTextField(
-                labelText: "Covered Area Parameter",
-                initialValue: formData['covered_area_param'],
-                onSaved: (value) {
-                  formData['covered_area_param'] = value;
                 },
               ),
               AppTextField(
