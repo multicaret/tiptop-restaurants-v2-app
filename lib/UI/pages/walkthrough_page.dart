@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tiptop_v2/UI/app_wrapper.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/UI/input/app_text_field.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
@@ -103,9 +104,9 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
     });
     _formKey.currentState.save();
     try {
-      await appProvider.login(loginData['email'], loginData['password']);
-      print(loginData['email']);
-      print(loginData['password']);
+      await appProvider
+          .login(loginData['email'], loginData['password'])
+          .then((_) => Navigator.push(context, MaterialPageRoute(builder: (context) => AppWrapper())));
       msg = Translations.of(context).get('Login Successful');
       showToast(msg: msg);
       setState(() {
