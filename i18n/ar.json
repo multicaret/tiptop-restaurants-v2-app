@@ -14,7 +14,7 @@
   "Edit Restaurant Profile":"تعديل ملف المطعم",
   "About App": "حول التطبيق",
   "Privacy Policy": "سياسة الخصوصية",
-  "Contact Us": "اتصل بنا",
+  "Contact Us": "تواصل معنا",
   "Change Language": "تغيير اللغة",
   "Customer Service": "خدمة الزبائن",
   "Version": "الاصدار",
@@ -23,5 +23,9 @@
   "Delivery Fee": "تكلفة التوصيل",
   "Covered Area Parameter": "محيط المساحة المغطاة",
   "Phone Number": "رقم الهاتف",
-  "Save": "حفظ"
+  "Save": "حفظ",
+  "Name": "الاسم",
+  "Subject": "الموضوع",
+  "Message": "الرسالة",
+  "Submit": "إرسال"
 }
