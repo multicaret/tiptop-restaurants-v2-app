@@ -19,7 +19,7 @@ class DriversPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(child: Text("Drivers Page")),
+      body: Center(child: Text("Coming Soon!")),
     );
   }
 }
