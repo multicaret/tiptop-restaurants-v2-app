@@ -17,5 +17,11 @@
   "Contact Us": "اتصل بنا",
   "Change Language": "تغيير اللغة",
   "Customer Service": "خدمة الزبائن",
-  "Version": "الاصدار"
+  "Version": "الاصدار",
+  "Delivery Time": "وقت التسليم",
+  "Minimum Order": "الحد الأدنى للطلب",
+  "Delivery Fee": "تكلفة التوصيل",
+  "Covered Area Parameter": "محيط المساحة المغطاة",
+  "Phone Number": "رقم الهاتف",
+  "Save": "حفظ"
 }
