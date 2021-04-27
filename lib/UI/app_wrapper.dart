@@ -9,7 +9,6 @@ import 'package:tiptop_v2/UI/pages/menu_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/orders_fab.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
-import 'package:tiptop_v2/providers/home_provider.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
 
 class AppWrapper extends StatefulWidget {
@@ -22,7 +21,6 @@ class AppWrapper extends StatefulWidget {
 class _AppWrapperState extends State<AppWrapper> {
   final CupertinoTabController _cupertinoTabController = CupertinoTabController();
   int currentTabIndex = 0;
-  HomeProvider homeProvider;
 
   List<GlobalKey<NavigatorState>> _tabNavKeys = List.generate(_getCupertinoTabsList().length, (i) => GlobalKey<NavigatorState>());
 
@@ -30,7 +28,7 @@ class _AppWrapperState extends State<AppWrapper> {
     return _tabNavKeys[_cupertinoTabController.index];
   }
 
-  void onTabItemTapped(int index, HomeProvider homeProvider) {
+  void onTabItemTapped(int index) {
     if (_tabNavKeys[index].currentState != null && currentTabIndex == index) {
       _tabNavKeys[index].currentState.popUntil((r) => r.isFirst);
     }
@@ -64,17 +62,6 @@ class _AppWrapperState extends State<AppWrapper> {
         ),
       );
     });
-  }
-
-  bool _isInit = true;
-
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      homeProvider = Provider.of<HomeProvider>(context);
-    }
-    _isInit = false;
-    super.didChangeDependencies();
   }
 
   static List<Map<String, dynamic>> _getCupertinoTabsList() {
