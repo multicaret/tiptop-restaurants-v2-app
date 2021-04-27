@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/UI/input/app_text_field.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
+import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/utils/constants.dart';
 import 'package:tiptop_v2/utils/styles/app_buttons.dart';
 
@@ -21,6 +23,23 @@ class _ContactUsPageState extends State<ContactUsPage> {
     'subject': null,
     'message': null,
   };
+
+  AppProvider appProvider;
+  bool _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      appProvider = Provider.of<AppProvider>(context);
+      contactUsFormData = {
+        'name': appProvider.authUser == null ? null : appProvider.authUser.name,
+        'phone': appProvider.authUser == null ? null : appProvider.authUser.phone,
+        'email': appProvider.authUser == null ? null : appProvider.authUser.email,
+      };
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
