@@ -27,6 +27,7 @@ class AppTextField extends StatefulWidget {
   final bool hasInnerLabel;
   final bool fit;
   final TextDirection textDirection;
+  final TextInputAction textInputAction;
   final bool hasClearIcon;
   final TextEditingController controller;
 
@@ -51,6 +52,7 @@ class AppTextField extends StatefulWidget {
     this.hasInnerLabel = false,
     this.fit = false,
     this.textDirection,
+    this.textInputAction,
     this.hasClearIcon = false,
     this.controller,
   });
@@ -117,7 +119,7 @@ class _AppTextFieldState extends State<AppTextField> {
             maxLines: widget.maxLines,
             initialValue: widget.initialValue,
             keyboardType: widget.keyboardType,
-            textInputAction: TextInputAction.done,
+            textInputAction: widget.textInputAction,
             textDirection: widget.textDirection,
             onChanged: (value) {
               setState(() {
