@@ -7,10 +7,12 @@ import 'package:tiptop_v2/UI/pages/profile/customer_service.dart';
 import 'package:tiptop_v2/UI/pages/profile/privacy_page.dart';
 import 'package:tiptop_v2/UI/pages/profile/about_page.dart';
 import 'package:tiptop_v2/UI/pages/profile/edit_restaurant_page.dart';
+import 'package:tiptop_v2/UI/pages/walkthrough_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/profile_setting_item.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
+import 'package:tiptop_v2/utils/helper.dart';
 import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -71,10 +73,13 @@ class _ProfilePageState extends State<ProfilePage> {
           ..._getProfileSettingItems(context, profileItems),
           const SizedBox(height: 30),
           ProfileSettingItem(
-            title: 'Logout',
-            icon: FontAwesomeIcons.doorOpen,
-            hasTrailing: false,
-          ),
+              title: 'Logout',
+              icon: FontAwesomeIcons.doorOpen,
+              hasTrailing: false,
+              action: () {
+                appProvider.logout().then((_) => showToast(msg: Translations.of(context).get("Logged out")));
+                Navigator.of(context).pushReplacementNamed(WalkthroughPage.routeName);
+              }),
           const SizedBox(height: 50),
           ProfileSettingItem(
             title: 'Version',
