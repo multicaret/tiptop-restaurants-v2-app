@@ -10,13 +10,13 @@ import 'app_alert_dialog.dart';
 class TextFieldDialog extends StatefulWidget {
   final String title;
   final String image;
-  final String textFieldHint;
+  final String textFieldLabel;
   final TextEditingController controller;
 
   TextFieldDialog({
     this.title,
     this.image,
-    this.textFieldHint,
+    this.textFieldLabel,
     this.controller,
   });
 
@@ -38,7 +38,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
           key: _formKey,
           child: AppTextField(
             controller: textFieldController,
-            hintText: Translations.of(context).get(widget.textFieldHint),
+            labelText: widget.textFieldLabel,
             hasInnerLabel: true,
             onSaved: (value) => textFieldValue = value,
             required: true,
@@ -50,7 +50,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
         DialogAction(
           text: 'Done',
           buttonColor: AppColors.secondary,
-          onTap: _submit,
+          // onTap: _submit,
         ),
         DialogAction(
           text: 'Cancel',
