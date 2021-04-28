@@ -44,6 +44,14 @@ class AppTextStyles {
     fontStyle: FontStyle.normal,
   );
 
+  static const TextStyle h3Primary = const TextStyle(
+    fontFamily: 'NeoSansArabic',
+    color: AppColors.primary,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    fontStyle: FontStyle.normal,
+  );
+
   static const TextStyle body = const TextStyle(
     fontFamily: 'NeoSansArabic',
     color: AppColors.text,
