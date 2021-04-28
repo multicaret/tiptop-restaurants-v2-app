@@ -28,5 +28,14 @@
   "Subject": "الموضوع",
   "Message": "الرسالة",
   "Submit": "إرسال",
-  "Logged out": "تم تسجيل الخروج"
+  "Logged out": "تم تسجيل الخروج",
+  "Order": "الطلب",
+  "Date": "التاريخ",
+  "Customer": "الزبون",
+  "Type": "توصيل",
+  "New": "جديد",
+  "Preparing": "في التحضير",
+  "Ready": "جاهز",
+  "Delivered": "تم التوصيل",
+  "Canceled": "ملغى"
 }

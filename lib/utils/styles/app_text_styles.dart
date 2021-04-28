@@ -85,6 +85,15 @@ class AppTextStyles {
     fontStyle: FontStyle.normal,
     decoration: TextDecoration.none,
   );
+  static const TextStyle bodyTable = const TextStyle(
+    fontFamily: 'NeoSansArabic',
+    color: AppColors.text,
+    fontSize: 14,
+    height: 1.4,
+    fontWeight: FontWeight.w400,
+    fontStyle: FontStyle.normal,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle subtitleSecondary = const TextStyle(
     fontFamily: 'NeoSansArabic',

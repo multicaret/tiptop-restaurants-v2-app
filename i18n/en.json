@@ -28,5 +28,15 @@
   "Subject": "Subject",
   "Message": "Message",
   "Submit": "Submit",
-  "Logged out": "Logged out"
+  "Logged out": "Logged out",
+  "Order": "Order",
+  "Date": "Date",
+  "Customer": "Customer",
+  "Type": "Type",
+  "New": "New",
+  "Preparing": "Preparing",
+  "Ready": "Ready",
+  "Delivered": "Delivered",
+  "Canceled": "Canceled"
+
 }
