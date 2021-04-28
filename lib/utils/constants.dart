@@ -1,4 +1,5 @@
 //Small vertical padding of list items
+
 const double listItemVerticalPaddingSm = 10;
 
 //Default vertical padding of list items
@@ -12,6 +13,9 @@ const double sliverAppBarSearchBarHeight = 70;
 
 //Height of restaurant cover (e.g. in restaurant page)
 const double restaurantCoverHeight = 240;
+
+//Height of min restaurant cover (e.g. in food home page)
+const double restaurantCoverHeightSm = 180;
 
 //Height of restaurant page header when collapsed
 const double restaurantPageCollapsedHeaderHeight = sliverAppBarSearchBarHeight + scrollableHorizontalTabBarHeight;
@@ -55,6 +59,9 @@ const double buttonHeight = 55;
 //Height of small app button
 const double buttonHeightSm = 45;
 
+//Height of x-small app button
+const double buttonHeightXs = 33;
+
 //Action button bottom padding (to account for dock line) (e.g. order button bottom padding)
 const double actionButtonBottomPadding = 40;
 
@@ -63,3 +70,18 @@ const double actionButtonContainerHeight = actionButtonBottomPadding + buttonHei
 
 //Space between stars that fill screen width
 const double fullWidthStarsGutter = 30;
+
+//Width of cart total in app bar
+const double appBarCartTotalWidth = 130;
+
+//Width of cart total in app bar
+const double appBarCartTotalWidthMin = 110;
+
+//Product list item thumbnail size (e.g. MarketProductListItem, FoodCartProductListItem, ..)
+const double productListItemThumbnailSize = 80;
+
+//Address icon size
+const double addressIconSize = 37;
+
+//Address list item height
+const double addressListItemHeight = addressIconSize + listItemVerticalPadding * 2;

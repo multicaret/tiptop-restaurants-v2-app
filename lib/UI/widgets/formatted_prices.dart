@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:tiptop_v2/UI/widgets/formatted_price.dart';
+import 'package:tiptop_v2/models/models.dart';
+
+class FormattedPrices extends StatelessWidget {
+  final DoubleRawStringFormatted price;
+  final DoubleRawStringFormatted discountedPrice;
+  final bool isLarge;
+  final bool isEndAligned;
+
+  FormattedPrices({
+    this.price,
+    this.discountedPrice,
+    this.isLarge = false,
+    this.isEndAligned = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    bool hasDiscountedPrice = discountedPrice != null && discountedPrice.raw != 0 && discountedPrice.raw < price.raw;
+    return Column(children: _formattedPricesList(hasDiscountedPrice));
+  }
+
+  List<Widget> _formattedPricesList(bool hasDiscountedPrice) {
+    return List.generate(
+      hasDiscountedPrice ? 2 : 1,
+      (i) => FormattedPrice(
+        isLarge: isLarge,
+        isEndAligned: isEndAligned,
+        price: hasDiscountedPrice && i == 0 ? discountedPrice.formatted : price.formatted,
+        isDiscounted: i != 0 && hasDiscountedPrice,
+      ),
+    );
+  }
+}
