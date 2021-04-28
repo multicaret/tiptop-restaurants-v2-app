@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tiptop_v2/UI/orders_status_tabs.dart';
+import 'package:tiptop_v2/UI/pages/order_show_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/circle_icon.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
+import 'package:tiptop_v2/utils/constants.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
 import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 
@@ -34,6 +36,7 @@ class _OrdersPageState extends State<OrdersPage> {
       length: orderStatus.length,
       child: AppScaffold(
         hasCurve: false,
+        bodyPadding: const EdgeInsets.symmetric(horizontal: screenHorizontalPadding),
         appBar: AppBar(
           title: Text(Translations.of(context).get('Orders')),
         ),
@@ -87,15 +90,22 @@ class _OrdersPageState extends State<OrdersPage> {
                         children: List.generate(
                           //change to orders list from API depending on the status
                           _dummyRowData.length * 3,
-                          (i) => TableRow(
-                              decoration: BoxDecoration(color: i.isEven ? AppColors.shadow : AppColors.bg),
+                          (k) => TableRow(
+                              decoration: BoxDecoration(color: k.isEven ? AppColors.shadow : AppColors.bg),
                               children: List.generate(
                                 _dummyRowData.length,
-                                (j) => Padding(
-                                  padding: const EdgeInsets.only(left: 10, right: 8, top: 10, bottom: 10),
-                                  child: Text(
-                                    _dummyRowData[j],
-                                    style: AppTextStyles.bodyTable,
+                                (j) => TableRowInkWell(
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OrderShowPage(orderStatus: orderStatus[i]["value"]),
+                                      )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10, right: 8, top: 10, bottom: 10),
+                                    child: Text(
+                                      _dummyRowData[j],
+                                      style: AppTextStyles.bodyTable,
+                                    ),
                                   ),
                                 ),
                               )),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiptop_v2/UI/app_wrapper.dart';
 import 'package:tiptop_v2/UI/pages/language_select_page.dart';
+import 'package:tiptop_v2/UI/pages/order_show_page.dart';
 import 'package:tiptop_v2/UI/pages/orders_page.dart';
 import 'package:tiptop_v2/UI/pages/profile/contact_us_page.dart';
 import 'package:tiptop_v2/UI/pages/profile/customer_service.dart';
@@ -22,4 +23,5 @@ final routes = <String, WidgetBuilder>{
   EditRestaurantPage.routeName: (BuildContext context) => EditRestaurantPage(),
   ContactUsPage.routeName: (BuildContext context) => ContactUsPage(),
   CustomerService.routeName: (BuildContext context) => CustomerService(),
+  OrderShowPage.routeName: (BuildContext context) => OrderShowPage(),
 };
