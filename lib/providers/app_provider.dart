@@ -9,6 +9,7 @@ import 'package:instabug_flutter/Instabug.dart';
 import 'package:package_info/package_info.dart';
 import 'package:tiptop_v2/models/boot.dart';
 import 'package:tiptop_v2/models/enums.dart';
+import 'package:tiptop_v2/models/home.dart';
 import 'package:tiptop_v2/models/models.dart';
 import 'package:tiptop_v2/models/user.dart';
 import 'package:tiptop_v2/utils/helper.dart';
@@ -93,6 +94,8 @@ class AppProvider with ChangeNotifier {
   User authUser;
   int userId;
   String token;
+  Branch restaurant;
+  int restaurantId;
 
   bool get isAuth => token != null;
 
@@ -246,16 +249,19 @@ class AppProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateUserData(User _authUser, String accessToken) async {
+  Future<void> updateUserData(User _authUser, String accessToken, Branch _restaurant) async {
     print('accessToken');
     print(accessToken);
     authUser = _authUser;
     userId = authUser.id;
     token = accessToken;
+    restaurant = _restaurant;
+    restaurantId = restaurant.id;
     final userData = {
       'accessToken': token,
       'userId': userId,
       'data': json.encode(authUser.toJson()),
+      'restaurantId': restaurantId,
     };
     storageActions.save(key: 'userData', data: userData).then((_) {
       print('Successfully saved user data');
@@ -279,8 +285,7 @@ class AppProvider with ChangeNotifier {
         );
       }
       User updatedUser = User.fromJson(responseData['data']['user']);
-      updateUserData(updatedUser, token);
-
+      updateUserData(updatedUser, token, restaurant);
       print('name : ${updatedUser.name}');
       notifyListeners();
     } catch (e) {
@@ -300,11 +305,14 @@ class AppProvider with ChangeNotifier {
     authUser = User.fromJson(json.decode(responseData['data']));
     userId = LocalStorage.userId = responseData['userId'];
     token = responseData['accessToken'];
+    restaurantId = responseData['restaurantId'];
     if (token != null) {
       print('Token found in local storage, auto login successful!');
       print('User id: ${authUser.id}, username: ${authUser.name}');
       print('token');
       print(token);
+      print('restaurantId');
+      print(restaurantId);
     }
     notifyListeners();
   }
@@ -327,8 +335,7 @@ class AppProvider with ChangeNotifier {
     if (suspension.enabled) {
       throw HttpException(title: "Account Suspended", message: suspension.message);
     }
-
-    updateUserData(authRequestData.user, authRequestData.accessToken).then((status) {
+    updateUserData(authRequestData.user, authRequestData.accessToken, authRequestData.restaurant).then((status) {
       print("Successfully stored token and user id");
     }).catchError((error) {
       throw error;
