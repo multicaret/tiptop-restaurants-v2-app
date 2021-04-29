@@ -1,3 +1,5 @@
+import 'package:tiptop_v2/models/home.dart';
+
 import 'models.dart';
 
 class AuthRequestData {
@@ -5,12 +7,14 @@ class AuthRequestData {
   String accessToken;
   Approval isApproved;
   Approval isSuspended;
+  Branch restaurant;
 
   AuthRequestData({
     this.user,
     this.accessToken,
     this.isApproved,
     this.isSuspended,
+    this.restaurant,
   });
 
   factory AuthRequestData.fromJson(Map<String, dynamic> json) => AuthRequestData(
@@ -18,6 +22,7 @@ class AuthRequestData {
         accessToken: json["accessToken"],
         isApproved: json["isApproved"] == null ? null : Approval.fromJson(json["isApproved"]),
         isSuspended: json["isSuspended"] == null ? null : Approval.fromJson(json["isSuspended"]),
+        restaurant: json["restaurant"] == null ? null : Branch.fromJson(json["restaurant"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -25,6 +30,7 @@ class AuthRequestData {
         "accessToken": accessToken,
         "isApproved": isApproved.toJson(),
         "isSuspended": isSuspended.toJson(),
+        "restaurant": restaurant.toJson(),
       };
 }
 
