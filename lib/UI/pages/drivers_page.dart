@@ -9,7 +9,7 @@ class DriversPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      hasCurve: true,
+      hasCurve: false,
       appBar: AppBar(
         title: Text(Translations.of(context).get('Drivers')),
         actions: [
