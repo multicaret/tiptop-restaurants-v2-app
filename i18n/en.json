@@ -57,5 +57,11 @@
   "Done" : "Done",
   "Cancel" : "Cancel",
   "This field is required": "This field is required",
-  "Order Details": "Order Details"
+  "Order Details": "Order Details",
+  "No results match your search": "'No results match your search",
+  "What are you looking for?": "What are you looking for?",
+  "Closes at": "Closes at",
+  "Free": "Free",
+  "Restaurant Delivery": "Restaurant Delivery",
+  "TipTop Delivery": "TipTop Delivery"
 }

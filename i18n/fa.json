@@ -57,5 +57,11 @@
   "Done" : "تم",
   "Cancel": "إلغاء",
   "This field is required": "هذا الحقل مطلوب",
-  "Order Details": "تفاصيل الطلب"
+  "Order Details": "تفاصيل الطلب",
+  "No results match your search": "لا توجد نتائج لما تبحث عنه",
+  "What are you looking for?": "عن ماذا تبحث؟",
+  "Closes at": "وقت الإغلاق",
+  "Free": "مجاناً",
+  "Restaurant Delivery": "توصيل المطعم",
+  "TipTop Delivery": "توصيل تيب توب"
 }
