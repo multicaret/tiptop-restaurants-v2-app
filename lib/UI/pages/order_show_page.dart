@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/widgets/UI/dialogs/text_field_dialog.dart';
-import 'package:tiptop_v2/UI/widgets/order_detail_section.dart';
+import 'package:tiptop_v2/UI/widgets/UI/section_title.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/order_product_list_item.dart';
 import 'package:tiptop_v2/UI/widgets/payment_summary.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/models/models.dart';
 import 'package:tiptop_v2/models/product.dart';
-import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/utils/constants.dart';
 import 'package:tiptop_v2/utils/styles/app_buttons.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
@@ -74,35 +72,32 @@ class _OrderShowPageState extends State<OrderShowPage> {
 
   @override
   Widget build(BuildContext context) {
-    AppProvider appProvider = Provider.of<AppProvider>(context);
     print(widget.orderStatus.toString());
     return AppScaffold(
       hasCurve: false,
+      appBar: AppBar(
+        title: Text(Translations.of(context).get('Order Details')),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Column(
               children: [
-                SizedBox(height: 15),
+                const SizedBox(height: 10),
                 Text(Translations.of(context).get("Delivery Date & Time"), style: AppTextStyles.subtitle50),
-                SizedBox(height: 10),
-                Text('2021-03-12  16:25', style: AppTextStyles.h2Secondary)
+                const SizedBox(height: 10),
+                Text('2021-03-12  16:25', style: AppTextStyles.h2)
               ],
             ),
-            SizedBox(height: 15),
-            OrderDetailSection(
-              title: "Order Information",
-              child: List.generate(
+            SectionTitle("Order Information"),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
                 dummyOrderDetails.length,
                 (i) => Container(
                   width: double.infinity,
-                  padding: EdgeInsets.only(
-                    top: 10,
-                    bottom: 10,
-                    right: appProvider.isRTL ? screenHorizontalPadding : 7,
-                    left: appProvider.isRTL ? 7 : screenHorizontalPadding,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: screenHorizontalPadding, vertical: 15),
                   decoration: BoxDecoration(
                     border: Border(bottom: BorderSide(color: AppColors.border)),
                     color: AppColors.white,
@@ -117,9 +112,10 @@ class _OrderShowPageState extends State<OrderShowPage> {
                 ),
               ),
             ),
-            OrderDetailSection(
-              title: "Items",
-              child: [
+            SectionTitle("Items"),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
                 Flex(
                   direction: Axis.vertical,
                   children: [
@@ -138,10 +134,12 @@ class _OrderShowPageState extends State<OrderShowPage> {
                 ),
               ],
             ),
-            OrderDetailSection(
-              title: "Payment Information",
-              child: [PaymentSummary(totals: dummyTotals)],
+            SectionTitle("Payment Information"),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [PaymentSummary(totals: dummyTotals)],
             ),
+            SizedBox(height: 15),
             if (widget.orderStatus == 2)
               Padding(
                 padding: const EdgeInsets.only(right: 17, left: 17, bottom: 17),
