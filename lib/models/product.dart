@@ -49,6 +49,7 @@ class Product {
     this.isFavorited,
     this.options,
     this.unit,
+    this.isActive,
   });
 
   int id;
@@ -77,6 +78,7 @@ class Product {
   bool isFavorited;
   List<ProductOption> options;
   Unit unit;
+  bool isActive;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
@@ -105,6 +107,7 @@ class Product {
         isFavorited: json["isFavorited"],
         options: json["options"] == null ? <ProductOption>[] : List<ProductOption>.from(json["options"].map((x) => ProductOption.fromJson(x))),
         unit: json["unit"] == null ? null : Unit.fromJson(json["unit"]),
+        isActive: json["isActive"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -133,6 +136,7 @@ class Product {
         "weight": weight,
         "isFavorited": isFavorited,
         "unit": unit.toJson(),
+        "isActive": isActive,
       };
 }
 
