@@ -50,7 +50,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
         DialogAction(
           text: 'Done',
           buttonColor: AppColors.secondary,
-          // onTap: _submit,
+          onTap: _submit,
         ),
         DialogAction(
           text: 'Cancel',
@@ -63,7 +63,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
   void _submit() {
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      showToast(msg: Translations.of(context).get('Please enter coupon code!'));
+      showToast(msg: Translations.of(context).get('Please enter a value!'));
       return;
     }
     Navigator.of(context).pop(textFieldValue);
