@@ -12,12 +12,14 @@ class TextFieldDialog extends StatefulWidget {
   final String image;
   final String textFieldLabel;
   final TextEditingController controller;
+  final TextInputType keyboardType;
 
   TextFieldDialog({
     this.title,
     this.image,
     this.textFieldLabel,
     this.controller,
+    this.keyboardType,
   });
 
   @override
@@ -43,6 +45,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
             onSaved: (value) => textFieldValue = value,
             required: true,
             fit: true,
+            keyboardType: widget.keyboardType,
           ),
         ),
       ],
