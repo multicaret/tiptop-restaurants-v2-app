@@ -7,6 +7,7 @@ import 'package:tiptop_v2/UI/widgets/order_product_list_item.dart';
 import 'package:tiptop_v2/UI/widgets/payment_summary.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/models/models.dart';
+import 'package:tiptop_v2/models/order.dart';
 import 'package:tiptop_v2/models/product.dart';
 import 'package:tiptop_v2/utils/constants.dart';
 import 'package:tiptop_v2/utils/styles/app_buttons.dart';
@@ -18,8 +19,14 @@ class OrderShowPage extends StatefulWidget {
   static const routeName = "/show-order";
 
   final int orderStatus;
+  final Order order;
+  final Product product;
 
-  OrderShowPage({this.orderStatus});
+  OrderShowPage({
+    @required this.orderStatus,
+    this.order,
+    this.product,
+  });
 
   @override
   _OrderShowPageState createState() => _OrderShowPageState();
@@ -53,19 +60,23 @@ class _OrderShowPageState extends State<OrderShowPage> {
   List<PaymentSummaryTotal> dummyTotals = [
     PaymentSummaryTotal(
       title: "Item Total",
+      // value : widget.product.price,
       value: "7000 IQD",
     ),
     PaymentSummaryTotal(
       title: "Discount Amount",
+      // value : widget.product.discountedPrice,
       value: "0 IQD",
     ),
     PaymentSummaryTotal(
       title: "Delivery Fee",
+      // value: widget.order.deliveryFee,
       value: "66 IQD",
     ),
     PaymentSummaryTotal(
       isGrandTotal: true,
       title: "Total",
+      // value: widget.order.grandTotal,
       value: "7066 IQD",
     ),
   ];
@@ -88,6 +99,7 @@ class _OrderShowPageState extends State<OrderShowPage> {
                 Text(Translations.of(context).get("Delivery Date & Time"), style: AppTextStyles.subtitle50),
                 const SizedBox(height: 10),
                 Text('2021-03-12  16:25', style: AppTextStyles.h2)
+                // Text(widget.order.completedAt.toString(), style: AppTextStyles.h2)
               ],
             ),
             SectionTitle("Order Information"),
