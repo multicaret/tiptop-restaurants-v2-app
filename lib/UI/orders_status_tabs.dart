@@ -6,11 +6,13 @@ class OrdersStatusTabs extends StatelessWidget {
   final List<Widget> tabs;
   final TabController tabController;
   final Widget child;
+  final Function onTap;
 
   const OrdersStatusTabs({
     @required this.tabs,
     @required this.tabController,
     this.child,
+    this.onTap,
   });
 
   static double _parentsTabHeight = 50.0;
@@ -39,6 +41,7 @@ class OrdersStatusTabs extends StatelessWidget {
         ),
         indicatorColor: AppColors.white,
         tabs: tabs,
+        onTap: onTap,
       ),
     );
   }

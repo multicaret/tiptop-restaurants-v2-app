@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/orders_status_tabs.dart';
 import 'package:tiptop_v2/UI/pages/order_show_page.dart';
+import 'package:tiptop_v2/UI/widgets/UI/app_loader.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/circle_icon.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
+import 'package:tiptop_v2/models/order.dart';
+import 'package:tiptop_v2/providers/app_provider.dart';
+import 'package:tiptop_v2/providers/orders_provider.dart';
+import 'package:tiptop_v2/providers/restaurants_provider.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
 import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 
@@ -15,7 +21,7 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-  List<Map<String, dynamic>> orderStatus = [
+  List<Map<String, dynamic>> _orderStatusList = [
     {'title': 'New', 'value': 2},
     {'title': 'Preparing', 'value': 10},
     {'title': 'Ready', 'value': 12},
@@ -29,91 +35,147 @@ class _OrdersPageState extends State<OrdersPage> {
 
   TabController tabController;
 
+  bool _isInit = true;
+  bool _isLoadingOrders;
+
+  OrdersProvider ordersProvider;
+  AppProvider appProvider;
+  RestaurantsProvider restaurantsProvider;
+  int restaurantId;
+  List<Order> orders = [];
+  int currentTabIndex = 0;
+  int ordersStatus;
+
+  Future<void> _fetchAndSetOrders(int ordersStatus) async {
+    setState(() => _isLoadingOrders = true);
+    await ordersProvider.fetchAndSetOrders(appProvider, appProvider.restaurantId, ordersStatus);
+    restaurantId = restaurantsProvider.restaurant.id;
+    orders = ordersProvider.orders;
+    setState(() => _isLoadingOrders = false);
+  }
+
+  void _setOrderStatus() {
+    if (currentTabIndex == 0) {
+      ordersStatus = _orderStatusList[0]["value"];
+    }
+    if (currentTabIndex == 1) {
+      ordersStatus = _orderStatusList[1]["value"];
+    }
+    if (currentTabIndex == 2) {
+      ordersStatus = _orderStatusList[2]["value"];
+    }
+    if (currentTabIndex == 3) {
+      ordersStatus = _orderStatusList[3]["value"];
+    }
+    if (currentTabIndex == 4) {
+      ordersStatus = _orderStatusList[4]["value"];
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      ordersProvider = Provider.of<OrdersProvider>(context);
+      appProvider = Provider.of<AppProvider>(context);
+      restaurantsProvider = Provider.of<RestaurantsProvider>(context);
+      _fetchAndSetOrders(_orderStatusList[0]["value"]);
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: orderStatus.length,
+      initialIndex: currentTabIndex,
+      length: _orderStatusList.length,
       child: AppScaffold(
         hasCurve: false,
         appBar: AppBar(
           title: Text(Translations.of(context).get('Orders')),
         ),
-        body: Column(
-          children: [
-            OrdersStatusTabs(
-              tabs: List.generate(orderStatus.length, (i) {
-                return Tab(
-                  child: Row(
-                    children: [
-                      if (i < 3)
-                        CircleIcon(
-                          //change to number of orders from API
-                          iconText: "0",
-                          bgColor: i == 0 ? AppColors.danger : AppColors.secondary,
-                          iconTextStyle: AppTextStyles.subtitleXs,
+        body: _isLoadingOrders
+            ? AppLoader()
+            : Column(
+                children: [
+                  OrdersStatusTabs(
+                    onTap: (index) {
+                      setState(() => currentTabIndex = index);
+                      _setOrderStatus();
+                      _fetchAndSetOrders(ordersStatus);
+                    },
+                    tabs: List.generate(_orderStatusList.length, (i) {
+                      return Tab(
+                        child: Row(
+                          children: [
+                            if (i < 3)
+                              CircleIcon(
+                                iconText: orders.length != 0 ? orders.length.toString() : "0",
+                                bgColor: i == 0 ? AppColors.danger : AppColors.secondary,
+                                iconTextStyle: AppTextStyles.subtitleXs,
+                              ),
+                            SizedBox(width: 5),
+                            Text(
+                              Translations.of(context).get(_orderStatusList[i]["title"]),
+                            ),
+                          ],
                         ),
-                      SizedBox(width: 5),
-                      Text(
-                        Translations.of(context).get(orderStatus[i]["title"]),
-                      ),
-                    ],
+                      );
+                    }),
+                    tabController: tabController,
                   ),
-                );
-              }),
-              tabController: tabController,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                  _tableColumnTitles.length,
-                  (i) => Text(Translations.of(context).get(_tableColumnTitles[i]), style: AppTextStyles.bodyBold),
-                ),
-              ),
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: tabController,
-                children: List.generate(orderStatus.length, (i) {
-                  return SingleChildScrollView(
-                    child: Table(
-                        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                        columnWidths: const <int, TableColumnWidth>{
-                          0: FixedColumnWidth(25),
-                          1: FixedColumnWidth(30),
-                          2: FixedColumnWidth(30),
-                          3: FixedColumnWidth(5),
-                        },
-                        children: List.generate(
-                          //change to orders list from API depending on the status
-                          _dummyRowData.length * 3,
-                          (k) => TableRow(
-                              decoration: BoxDecoration(color: k.isEven ? AppColors.shadow : AppColors.bg),
-                              children: List.generate(
-                                _dummyRowData.length,
-                                (j) => TableRowInkWell(
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => OrderShowPage(orderStatus: orderStatus[i]["value"]),
-                                      )),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 10, right: 8, top: 10, bottom: 10),
-                                    child: Text(
-                                      _dummyRowData[j],
-                                      style: AppTextStyles.bodyTable,
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(
+                        _tableColumnTitles.length,
+                        (i) => Text(Translations.of(context).get(_tableColumnTitles[i]), style: AppTextStyles.bodyBold),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: orders.length == 0
+                        ? Center(child: Text("No Orders Found!"))
+                        : TabBarView(
+                            physics: NeverScrollableScrollPhysics(),
+                            controller: tabController,
+                            children: List.generate(_orderStatusList.length, (i) {
+                              return SingleChildScrollView(
+                                child: Table(defaultVerticalAlignment: TableCellVerticalAlignment.middle, columnWidths: const <int, TableColumnWidth>{
+                                  0: FixedColumnWidth(25),
+                                  1: FixedColumnWidth(30),
+                                  2: FixedColumnWidth(30),
+                                  3: FixedColumnWidth(5),
+                                }, children: [
+                                  TableRow(
+                                    children: List.generate(
+                                      orders.length,
+                                      (j) => TableRowInkWell(
+                                        onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => OrderShowPage(orderStatus: _orderStatusList[i]["value"]),
+                                            )),
+                                        child: Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 10, right: 8, top: 10, bottom: 10),
+                                            child: Text(
+                                              _orderStatusList[i]["title"],
+                                              style: AppTextStyles.bodyTable,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )),
-                        )),
-                  );
-                }),
+                                ]),
+                              );
+                            }),
+                          ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
       ),
     );
   }
