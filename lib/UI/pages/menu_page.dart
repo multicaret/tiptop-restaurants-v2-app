@@ -78,19 +78,32 @@ class _MenuPageState extends State<MenuPage> {
 
   Future<void> _fetchAndSetRestaurant() async {
     setState(() => _isLoadingRestaurantShowRequest = true);
-    await restaurantsProvider.fetchAndSetRestaurant(appProvider, restaurantId);
-    restaurant = restaurantsProvider.restaurant;
-    menuCategories = restaurantsProvider.menuCategories;
-    print(restaurant != null ? 'restaurant chain id: ${restaurant.chain.id}' : '');
-    setState(() => _isLoadingRestaurantShowRequest = false);
+    try {
+      await restaurantsProvider.fetchAndSetRestaurant(appProvider, restaurantId);
+      restaurant = restaurantsProvider.restaurant;
+      menuCategories = restaurantsProvider.menuCategories;
+      restaurantIsActive = restaurant.workingHours.isOpen;
+      print("restaurantIsActiveOnInit: $restaurantIsActive");
+      setState(() => _isLoadingRestaurantShowRequest = false);
+    } catch (e) {
+      throw e;
+    }
   }
 
-  Future<void> _toggleRestaurantStatus(bool status) async {
-    await restaurantsProvider.toggleRestaurantStatus(appProvider, restaurantId, status);
-    restaurant = restaurantsProvider.restaurant;
-    restaurantIsActive = restaurant.workingHours.isOpen;
-    print(restaurantIsActive);
-    print('restaurantStatus: $restaurantIsActive');
+  Future<void> _toggleRestaurantStatus() async {
+    bool _restaurantIsActive = restaurantIsActive;
+    setState(() => restaurantIsActive = !restaurantIsActive);
+    try {
+      await restaurantsProvider.toggleRestaurantStatus(
+        appProvider,
+        restaurantId,
+        _restaurantIsActive ? false : true,
+      );
+      print('restaurantIsActiveOnToggle: $restaurantIsActive');
+    } catch (e) {
+      setState(() => restaurantIsActive = _restaurantIsActive);
+      throw e;
+    }
   }
 
   @override
@@ -220,14 +233,9 @@ class _MenuPageState extends State<MenuPage> {
         title: Text("Menu"),
         actions: [
           Switch(
-              value: restaurantIsActive,
-              onChanged: (value) {
-                setState(() {
-                  restaurantIsActive = value;
-                  print(value);
-                });
-                _toggleRestaurantStatus(value);
-              }),
+            value: restaurantIsActive,
+            onChanged: (value) => _toggleRestaurantStatus(),
+          ),
           IconButton(
             icon: AppIcons.iconSPrimary(LineAwesomeIcons.user_circle),
             onPressed: () => Navigator.of(context, rootNavigator: true).pushNamed(ProfilePage.routeName),
