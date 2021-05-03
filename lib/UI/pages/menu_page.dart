@@ -93,15 +93,6 @@ class _MenuPageState extends State<MenuPage> {
     print('restaurantStatus: $restaurantIsActive');
   }
 
-  Future<void> _toggleProductStatus(bool status, int productId) async {
-    await restaurantsProvider.toggleProductStatus(appProvider, restaurantId, productId, status);
-  }
-
-  Future<void> _editProductPrice(int productId, String price) async {
-    await restaurantsProvider.editProductPrice(appProvider, restaurantId, productId, price);
-    print(productStatus);
-  }
-
   @override
   void initState() {
     categoriesScrollController = AutoScrollController(
@@ -339,10 +330,7 @@ class _MenuPageState extends State<MenuPage> {
                               (i) => FoodProductListItem(
                                 product: searchProductsResult[i],
                                 restaurantId: restaurant.id,
-                                chainId: restaurant.chain.id,
                                 productStatus: searchProductsResult[i].isActive,
-                                appProvider: appProvider,
-                                restaurantsProvider: restaurantsProvider,
                               ),
                             )
                           : List.generate(
@@ -365,10 +353,7 @@ class _MenuPageState extends State<MenuPage> {
                                       (j) => FoodProductListItem(
                                         product: menuCategories[i].products[j],
                                         restaurantId: restaurant.id,
-                                        chainId: restaurant.chain.id,
                                         productStatus: menuCategories[i].products[j].isActive,
-                                        appProvider: appProvider,
-                                        restaurantsProvider: restaurantsProvider,
                                       ),
                                     ),
                                   ),

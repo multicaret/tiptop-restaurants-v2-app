@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/widgets/UI/dialogs/text_field_dialog.dart';
 import 'package:tiptop_v2/models/product.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
@@ -14,24 +15,12 @@ import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 class FoodProductListItem extends StatefulWidget {
   final Product product;
   final int restaurantId;
-  final int chainId;
   final bool productStatus;
-  final Function onToggle;
-  final Function onEditPrice;
-  final Function toggleSwitch;
-  final AppProvider appProvider;
-  final RestaurantsProvider restaurantsProvider;
 
   FoodProductListItem({
     @required this.product,
     @required this.restaurantId,
-    @required this.chainId,
-    this.productStatus,
-    this.onToggle,
-    this.onEditPrice,
-    this.toggleSwitch,
-    this.appProvider,
-    this.restaurantsProvider,
+    @required this.productStatus,
   });
 
   @override
@@ -39,6 +28,27 @@ class FoodProductListItem extends StatefulWidget {
 }
 
 class _FoodProductListItemState extends State<FoodProductListItem> {
+  AppProvider appProvider;
+  RestaurantsProvider restaurantsProvider;
+  bool _isInit = true;
+
+  Future<void> _toggleProductStatus(bool status, int productId) async {
+    await restaurantsProvider.toggleProductStatus(appProvider, widget.restaurantId, productId, status);
+  }
+
+  Future<void> _editProductPrice(int productId, String price) async {
+    await restaurantsProvider.editProductPrice(appProvider, widget.restaurantId, productId, price);
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      appProvider = Provider.of<AppProvider>(context);
+      restaurantsProvider = Provider.of<RestaurantsProvider>(context);
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +95,7 @@ class _FoodProductListItemState extends State<FoodProductListItem> {
                           ),
                         ).then((price) {
                           if (price is String && price.isNotEmpty) {
-                            widget.restaurantsProvider.editProductPrice(
-                              widget.appProvider,
-                              widget.restaurantId,
-                              widget.product.id,
-                              price,
-                            );
+                            _editProductPrice(widget.product.id, price);
                           }
                           setState(() {
                             widget.product.price.raw = double.parse(price);
@@ -99,22 +104,14 @@ class _FoodProductListItemState extends State<FoodProductListItem> {
                       ),
                       Expanded(
                         child: Text(
-                          priceAndCurrency(
-                            widget.product.price.raw,
-                            widget.appProvider.authUser.currency,
-                          ),
+                          priceAndCurrency(widget.product.price.raw, appProvider.authUser.currency),
                           style: AppTextStyles.subtitleSecondaryBold,
                         ),
                       ),
                       Switch(
-                        value: widget.product.isActive,
+                        value: widget.productStatus,
                         onChanged: (value) {
-                          widget.restaurantsProvider.toggleProductStatus(
-                            widget.appProvider,
-                            widget.restaurantId,
-                            widget.product.id,
-                            value,
-                          );
+                          _toggleProductStatus(value, widget.product.id);
                           setState(() {
                             widget.product.isActive = value;
                           });
