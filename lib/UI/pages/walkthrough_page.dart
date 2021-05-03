@@ -64,7 +64,8 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
                   AppTextField(
                     labelText: 'Email',
                     textDirection: TextDirection.ltr,
-                    initialValue: 'demo@trytiptop.app',
+                    //remove later
+                    initialValue: 'owner@trytiptop.app',
                     onSaved: (value) {
                       loginData['email'] = value;
                     },
