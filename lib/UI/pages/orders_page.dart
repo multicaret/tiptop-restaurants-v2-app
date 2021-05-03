@@ -54,24 +54,6 @@ class _OrdersPageState extends State<OrdersPage> {
     setState(() => _isLoadingOrders = false);
   }
 
-  void _setOrderStatus() {
-    if (currentTabIndex == 0) {
-      ordersStatus = _orderStatusList[0]["value"];
-    }
-    if (currentTabIndex == 1) {
-      ordersStatus = _orderStatusList[1]["value"];
-    }
-    if (currentTabIndex == 2) {
-      ordersStatus = _orderStatusList[2]["value"];
-    }
-    if (currentTabIndex == 3) {
-      ordersStatus = _orderStatusList[3]["value"];
-    }
-    if (currentTabIndex == 4) {
-      ordersStatus = _orderStatusList[4]["value"];
-    }
-  }
-
   @override
   void didChangeDependencies() {
     if (_isInit) {
@@ -100,8 +82,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 children: [
                   OrdersStatusTabs(
                     onTap: (index) {
-                      setState(() => currentTabIndex = index);
-                      _setOrderStatus();
+                      getOrderStatus(index);
                       _fetchAndSetOrders(ordersStatus);
                     },
                     tabs: List.generate(_orderStatusList.length, (i) {
@@ -178,5 +159,27 @@ class _OrdersPageState extends State<OrdersPage> {
               ),
       ),
     );
+  }
+
+  void getOrderStatus(int tabIndex) {
+    switch (tabIndex) {
+      case 0:
+        ordersStatus = 2;
+        break;
+      case 1:
+        ordersStatus = 10;
+        break;
+      case 2:
+        ordersStatus = 12;
+        break;
+      case 3:
+        ordersStatus = 20;
+        break;
+      case 4:
+        ordersStatus = 0;
+        break;
+      default:
+        ordersStatus = 2;
+    }
   }
 }
