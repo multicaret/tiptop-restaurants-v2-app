@@ -33,57 +33,42 @@ class OrderShowPage extends StatefulWidget {
 }
 
 class _OrderShowPageState extends State<OrderShowPage> {
-  //change values to order details from API
-  List<Map<String, dynamic>> dummyOrderDetails = [
-    {'title': 'Order Id', 'value': '#123456'},
-    {'title': 'Delivery Type', 'value': 'TipTop Delivery'},
-    {'title': 'Payment Method', 'value': 'Cash'},
-    {'title': 'Customer Name', 'value': 'TEST NAME TIPTOP'},
-    {'title': 'Customer Address', 'value': 'Address'},
-  ];
+  List<PaymentSummaryTotal> orderTotals = [];
+  List<Map<String, dynamic>> orderDetails = [];
 
-  //change values to order products from API
-  List<Product> dummyOrderProducts = [
-    Product(
-      title: "Salami",
-      unitText: "Item Price",
-      price: DoubleRawStringFormatted(formatted: "3500 IQD"),
-    ),
-    Product(
-      title: "Magnum",
-      unitText: "Item Price",
-      price: DoubleRawStringFormatted(formatted: "1500 IQD"),
-    ),
-  ];
+  void setOrderDetails() {
+    orderDetails = [
+      {'title': 'Order Id', 'value': widget.order.id.toString()},
+      {'title': 'Delivery Type', 'value': widget.order.deliveryType},
+      {'title': 'Payment Method', 'value': widget.order.paymentMethod.title},
+      {'title': 'Customer Name', 'value': widget.order.user.name},
+      {'title': 'Customer Address', 'value': widget.order.address != null ? widget.order.address.address1 : "Address Not found"},
+    ];
 
-  //change values to order payment info from API
-  List<PaymentSummaryTotal> dummyTotals = [
-    PaymentSummaryTotal(
-      title: "Item Total",
-      // value : widget.product.price,
-      value: "7000 IQD",
-    ),
-    PaymentSummaryTotal(
-      title: "Discount Amount",
-      // value : widget.product.discountedPrice,
-      value: "0 IQD",
-    ),
-    PaymentSummaryTotal(
-      title: "Delivery Fee",
-      // value: widget.order.deliveryFee,
-      value: "66 IQD",
-    ),
-    PaymentSummaryTotal(
-      isGrandTotal: true,
-      title: "Total",
-      // value: widget.order.grandTotal,
-      value: "7066 IQD",
-    ),
-  ];
+    orderTotals = [
+      PaymentSummaryTotal(
+        title: "Item Total",
+        value: widget.order.cart == null ? "0" : widget.order.cart.total.formatted,
+      ),
+      PaymentSummaryTotal(
+        title: "Discount Amount",
+        value: widget.order.couponDiscountAmount.formatted,
+      ),
+      PaymentSummaryTotal(
+        title: "Delivery Fee",
+        value: widget.order.deliveryFee.raw == 0 ? Translations.of(context).get("Free") : widget.order.deliveryFee.formatted,
+      ),
+      PaymentSummaryTotal(
+        isGrandTotal: true,
+        title: "Total",
+        value: widget.order.grandTotal.formatted,
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.orderStatus.toString());
+    setOrderDetails();
     return AppScaffold(
       hasCurve: false,
       appBar: AppBar(
@@ -98,15 +83,14 @@ class _OrderShowPageState extends State<OrderShowPage> {
                 const SizedBox(height: 10),
                 Text(Translations.of(context).get("Delivery Date & Time"), style: AppTextStyles.subtitle50),
                 const SizedBox(height: 10),
-                Text('2021-03-12  16:25', style: AppTextStyles.h2)
-                // Text(widget.order.completedAt.toString(), style: AppTextStyles.h2)
+                Text(widget.order.completedAt.formatted, style: AppTextStyles.h2)
               ],
             ),
             SectionTitle("Order Information"),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
-                dummyOrderDetails.length,
+                orderDetails.length,
                 (i) => Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: screenHorizontalPadding, vertical: 15),
@@ -117,40 +101,52 @@ class _OrderShowPageState extends State<OrderShowPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(Translations.of(context).get(dummyOrderDetails[i]['title'])),
-                      Text(dummyOrderDetails[i]['value']),
+                      Text(Translations.of(context).get(orderDetails[i]['title'])),
+                      const SizedBox(width: 12),
+                      Expanded(child: Text(orderDetails[i]['value'], textAlign: TextAlign.end)),
                     ],
                   ),
                 ),
               ),
             ),
             SectionTitle("Items"),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Flex(
-                  direction: Axis.vertical,
-                  children: [
-                    ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: dummyOrderProducts.length,
-                        itemBuilder: (context, i) {
-                          return OrderProductListItem(
-                            productOptions: ['Option 1', 'Option 2'],
-                            quantity: "2",
-                            product: dummyOrderProducts[i],
-                          );
-                        }),
-                  ],
-                ),
-              ],
-            ),
+            widget.order.cart == null
+                ? Container(
+                    padding: const EdgeInsets.symmetric(horizontal: screenHorizontalPadding, vertical: 10),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      border: Border(
+                        bottom: BorderSide(width: 1, color: AppColors.border),
+                      ),
+                    ),
+                    child: Text("Cart is empty!!"),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Flex(
+                        direction: Axis.vertical,
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: widget.order.cart.cartProducts.length,
+                            itemBuilder: (context, i) {
+                              var cartProduct = widget.order.cart.cartProducts[i];
+                              return OrderProductListItem(
+                                productOptions: cartProduct.product.options,
+                                quantity: cartProduct.quantity.toString(),
+                                product: cartProduct.product,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
             SectionTitle("Payment Information"),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [PaymentSummary(totals: dummyTotals)],
-            ),
+            PaymentSummary(totals: orderTotals),
             SizedBox(height: 15),
             if (widget.orderStatus == 2)
               Padding(
@@ -170,7 +166,7 @@ class _OrderShowPageState extends State<OrderShowPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             AppIcons.iconWhite(FontAwesomeIcons.check),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(Translations.of(context).get("Approve")),
                           ],
                         ),
