@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/orders_status_tabs.dart';
-import 'package:tiptop_v2/UI/pages/order_show_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_loader.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/circle_icon.dart';
+import 'package:tiptop_v2/UI/widgets/table_row_item.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/models/order.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
@@ -30,8 +30,6 @@ class _OrdersPageState extends State<OrdersPage> {
   ];
 
   final List<String> _tableColumnTitles = ['Order', 'Date', 'Customer', 'Type'];
-
-  final List<String> _dummyRowData = ['1234567', '2021-03-12 16:25', 'TEST NAME TIPTOP', 'TipTop Delivery'];
 
   TabController tabController;
 
@@ -96,9 +94,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                 iconTextStyle: AppTextStyles.subtitleXs,
                               ),
                             SizedBox(width: 5),
-                            Text(
-                              Translations.of(context).get(_orderStatusList[i]["title"]),
-                            ),
+                            Text(Translations.of(context).get(_orderStatusList[i]["title"])),
                           ],
                         ),
                       );
@@ -111,7 +107,10 @@ class _OrdersPageState extends State<OrdersPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: List.generate(
                         _tableColumnTitles.length,
-                        (i) => Text(Translations.of(context).get(_tableColumnTitles[i]), style: AppTextStyles.bodyBold),
+                        (i) => Text(
+                          Translations.of(context).get(_tableColumnTitles[i]),
+                          style: AppTextStyles.bodyBold,
+                        ),
                       ),
                     ),
                   ),
@@ -123,34 +122,42 @@ class _OrdersPageState extends State<OrdersPage> {
                             controller: tabController,
                             children: List.generate(_orderStatusList.length, (i) {
                               return SingleChildScrollView(
-                                child: Table(defaultVerticalAlignment: TableCellVerticalAlignment.middle, columnWidths: const <int, TableColumnWidth>{
-                                  0: FixedColumnWidth(25),
-                                  1: FixedColumnWidth(30),
-                                  2: FixedColumnWidth(30),
-                                  3: FixedColumnWidth(5),
-                                }, children: [
-                                  TableRow(
-                                    children: List.generate(
-                                      orders.length,
-                                      (j) => TableRowInkWell(
-                                        onTap: () => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => OrderShowPage(orderStatus: _orderStatusList[i]["value"]),
-                                            )),
-                                        child: Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 10, right: 8, top: 10, bottom: 10),
-                                            child: Text(
-                                              _orderStatusList[i]["title"],
-                                              style: AppTextStyles.bodyTable,
-                                            ),
+                                child: Table(
+                                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                                    columnWidths: const <int, TableColumnWidth>{
+                                      0: FixedColumnWidth(10),
+                                      1: FixedColumnWidth(40),
+                                      2: FixedColumnWidth(30),
+                                      3: FixedColumnWidth(5),
+                                    },
+                                    children: List.generate(orders.length, (j) {
+                                      var order = orders[j];
+                                      return TableRow(
+                                        decoration: BoxDecoration(color: j.isEven ? AppColors.shadow : AppColors.bg),
+                                        children: [
+                                          TableRowItem(
+                                            orderStatus: ordersStatus,
+                                            value: order.id.toString(),
+                                            order: order,
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ]),
+                                          TableRowItem(
+                                            orderStatus: ordersStatus,
+                                            value: order.completedAt.formatted,
+                                            order: order,
+                                          ),
+                                          TableRowItem(
+                                            orderStatus: ordersStatus,
+                                            value: order.user.name,
+                                            order: order,
+                                          ),
+                                          TableRowItem(
+                                            orderStatus: ordersStatus,
+                                            value: order.deliveryType,
+                                            order: order,
+                                          ),
+                                        ],
+                                      );
+                                    })),
                               );
                             }),
                           ),
