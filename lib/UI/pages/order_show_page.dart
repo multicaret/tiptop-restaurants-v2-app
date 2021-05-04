@@ -18,7 +18,7 @@ import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 class OrderShowPage extends StatefulWidget {
   static const routeName = "/show-order";
 
-  final int orderStatus;
+  final String orderStatus;
   final Order order;
   final Product product;
 
@@ -148,7 +148,7 @@ class _OrderShowPageState extends State<OrderShowPage> {
             SectionTitle("Payment Information"),
             PaymentSummary(totals: orderTotals),
             SizedBox(height: 15),
-            if (widget.orderStatus == 2)
+            if (widget.orderStatus == "2")
               Padding(
                 padding: const EdgeInsets.only(right: 17, left: 17, bottom: 17),
                 child: Row(
@@ -190,7 +190,7 @@ class _OrderShowPageState extends State<OrderShowPage> {
                   ],
                 ),
               ),
-            if (widget.orderStatus == 10)
+            if (widget.orderStatus == "10")
               Padding(
                 padding: const EdgeInsets.only(right: 17, left: 17, bottom: 17),
                 child: AppButtons.dynamic(

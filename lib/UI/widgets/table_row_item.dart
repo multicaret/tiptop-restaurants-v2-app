@@ -4,7 +4,7 @@ import 'package:tiptop_v2/models/order.dart';
 import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 
 class TableRowItem extends StatelessWidget {
-  final int orderStatus;
+  final String orderStatus;
   final String value;
   final Order order;
 
