@@ -16,7 +16,6 @@ class OrdersProvider with ChangeNotifier {
     orderData = OrderData.fromJson(responseData["data"]);
     orders = orderData.orders;
     counts = orderData.counts;
-    print(orderData);
     notifyListeners();
   }
 }
