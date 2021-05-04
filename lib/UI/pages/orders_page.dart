@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/orders_status_tabs.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_loader.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
-import 'package:tiptop_v2/UI/widgets/circle_icon.dart';
 import 'package:tiptop_v2/UI/widgets/table_row_item.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/models/order.dart';
@@ -95,13 +94,18 @@ class _OrdersPageState extends State<OrdersPage> {
                       return Tab(
                         child: Row(
                           children: [
-                            //TODO: change to container to display length with high border radius
-                            CircleIcon(
-                              iconText: counts[_orderStatusList[i]["value"]].toString(),
-                              bgColor: i == 0 ? AppColors.danger : AppColors.secondary,
-                              iconTextStyle: AppTextStyles.subtitleXs,
+                            Container(
+                              padding: const EdgeInsets.all(4.0),
+                              decoration: BoxDecoration(
+                                  color: i == 0 ? AppColors.danger : AppColors.secondary,
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              child: Text(
+                                counts[_orderStatusList[i]["value"]].toString(),
+                                style: AppTextStyles.subtitleXs,
+                              ),
                             ),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Text(Translations.of(context).get(_orderStatusList[i]["title"])),
                           ],
                         ),
