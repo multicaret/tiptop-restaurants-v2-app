@@ -4,13 +4,19 @@ import 'package:tiptop_v2/models/order.dart';
 import 'app_provider.dart';
 
 class OrdersProvider with ChangeNotifier {
-  List<Order> orders = [];
+  OrderData orderData;
 
-  Future<dynamic> fetchAndSetOrders(AppProvider appProvider, int restaurantID, int orderStatus) async {
+  List<Order> orders = [];
+  Map<String, int> counts;
+
+  Future<dynamic> fetchAndSetOrders(AppProvider appProvider, int restaurantID, String orderStatus) async {
     final endpoint = 'restaurants/$restaurantID/orders';
-    final body = {"status": orderStatus.toString()};
+    final body = {"status": orderStatus};
     final responseData = await appProvider.get(endpoint: endpoint, body: body, withToken: true);
-    orders = List<Order>.from(responseData["data"].map((x) => Order.fromJson(x)));
+    orderData = OrderData.fromJson(responseData["data"]);
+    orders = orderData.orders;
+    counts = orderData.counts;
+    print(orderData);
     notifyListeners();
   }
 }

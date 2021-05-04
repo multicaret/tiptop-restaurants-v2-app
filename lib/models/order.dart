@@ -4,6 +4,54 @@ import 'address.dart';
 import 'cart.dart';
 import 'models.dart';
 
+class OrderResponse {
+  OrderResponse({
+    this.data,
+    this.errors,
+    this.message,
+    this.status,
+  });
+
+  OrderData data;
+  List<dynamic> errors;
+  String message;
+  int status;
+
+  factory OrderResponse.fromJson(Map<String, dynamic> json) => OrderResponse(
+        data: OrderData.fromJson(json["data"]),
+        errors: List<dynamic>.from(json["errors"].map((x) => x)),
+        message: json["message"],
+        status: json["status"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "data": data.toJson(),
+        "errors": List<dynamic>.from(errors.map((x) => x)),
+        "message": message,
+        "status": status,
+      };
+}
+
+class OrderData {
+  OrderData({
+    this.orders,
+    this.counts,
+  });
+
+  List<Order> orders;
+  Map<String, int> counts;
+
+  factory OrderData.fromJson(Map<String, dynamic> json) => OrderData(
+        orders: List<Order>.from(json["orders"].map((x) => Order.fromJson(x))),
+        counts: Map.from(json["counts"]).map((k, v) => MapEntry<String, int>(k, v)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "orders": List<dynamic>.from(orders.map((x) => x.toJson())),
+        "counts": Map.from(counts).map((k, v) => MapEntry<String, dynamic>(k, v)),
+      };
+}
+
 class CheckoutData {
   CheckoutData({
     this.paymentMethods,
