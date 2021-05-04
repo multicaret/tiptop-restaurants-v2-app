@@ -22,11 +22,11 @@ class OrdersPage extends StatefulWidget {
 
 class _OrdersPageState extends State<OrdersPage> {
   List<Map<String, dynamic>> _orderStatusList = [
-    {'title': 'New', 'value': 2},
-    {'title': 'Preparing', 'value': 10},
-    {'title': 'Ready', 'value': 12},
-    {'title': 'Delivered', 'value': 20},
-    {'title': 'Canceled', 'value': 0},
+    {'title': 'New', 'value': "2"},
+    {'title': 'Preparing', 'value': "10"},
+    {'title': 'Ready', 'value': "12"},
+    {'title': 'Delivered', 'value': "20"},
+    {'title': 'Canceled', 'value': "0"},
   ];
 
   final List<String> _tableColumnTitles = ['Order', 'Date', 'Customer', 'Type'];
@@ -34,22 +34,30 @@ class _OrdersPageState extends State<OrdersPage> {
   TabController tabController;
 
   bool _isInit = true;
-  bool _isLoadingOrders;
+  bool _isLoadingOrders = false;
+  bool _isLoadingOrdersInit = true;
 
   OrdersProvider ordersProvider;
   AppProvider appProvider;
   RestaurantsProvider restaurantsProvider;
-  int restaurantId;
-  List<Order> orders = [];
-  int currentTabIndex = 0;
-  int ordersStatus;
 
-  Future<void> _fetchAndSetOrders(int ordersStatus) async {
+  String ordersStatus = "2";
+  int restaurantId;
+  int currentTabIndex = 0;
+
+  List<Order> orders = [];
+  Map<String, int> counts;
+
+  Future<void> _fetchAndSetOrders(String ordersStatus) async {
     setState(() => _isLoadingOrders = true);
     await ordersProvider.fetchAndSetOrders(appProvider, appProvider.restaurantId, ordersStatus);
     restaurantId = restaurantsProvider.restaurant.id;
     orders = ordersProvider.orders;
-    setState(() => _isLoadingOrders = false);
+    counts = ordersProvider.counts;
+    setState(() {
+      _isLoadingOrders = false;
+      _isLoadingOrdersInit = false;
+    });
   }
 
   @override
@@ -58,7 +66,7 @@ class _OrdersPageState extends State<OrdersPage> {
       ordersProvider = Provider.of<OrdersProvider>(context);
       appProvider = Provider.of<AppProvider>(context);
       restaurantsProvider = Provider.of<RestaurantsProvider>(context);
-      _fetchAndSetOrders(_orderStatusList[0]["value"]);
+      _fetchAndSetOrders("2");
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -74,7 +82,7 @@ class _OrdersPageState extends State<OrdersPage> {
         appBar: AppBar(
           title: Text(Translations.of(context).get('Orders')),
         ),
-        body: _isLoadingOrders
+        body: _isLoadingOrdersInit
             ? AppLoader()
             : Column(
                 children: [
@@ -87,12 +95,12 @@ class _OrdersPageState extends State<OrdersPage> {
                       return Tab(
                         child: Row(
                           children: [
-                            if (i < 3)
-                              CircleIcon(
-                                iconText: orders.length != 0 ? orders.length.toString() : "0",
-                                bgColor: i == 0 ? AppColors.danger : AppColors.secondary,
-                                iconTextStyle: AppTextStyles.subtitleXs,
-                              ),
+                            //TODO: change to container to display length with high border radius
+                            CircleIcon(
+                              iconText: counts[_orderStatusList[i]["value"]].toString(),
+                              bgColor: i == 0 ? AppColors.danger : AppColors.secondary,
+                              iconTextStyle: AppTextStyles.subtitleXs,
+                            ),
                             SizedBox(width: 5),
                             Text(Translations.of(context).get(_orderStatusList[i]["title"])),
                           ],
@@ -115,50 +123,54 @@ class _OrdersPageState extends State<OrdersPage> {
                     ),
                   ),
                   Expanded(
-                    child: orders.length == 0
-                        ? Center(child: Text("No Orders Found!"))
+                    child: _isLoadingOrders
+                        ? AppLoader()
                         : TabBarView(
                             physics: NeverScrollableScrollPhysics(),
                             controller: tabController,
                             children: List.generate(_orderStatusList.length, (i) {
-                              return SingleChildScrollView(
-                                child: Table(
-                                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                                    columnWidths: const <int, TableColumnWidth>{
-                                      0: FixedColumnWidth(10),
-                                      1: FixedColumnWidth(40),
-                                      2: FixedColumnWidth(30),
-                                      3: FixedColumnWidth(5),
-                                    },
-                                    children: List.generate(orders.length, (j) {
-                                      var order = orders[j];
-                                      return TableRow(
-                                        decoration: BoxDecoration(color: j.isEven ? AppColors.shadow : AppColors.bg),
-                                        children: [
-                                          TableRowItem(
-                                            orderStatus: ordersStatus,
-                                            value: order.id.toString(),
-                                            order: order,
-                                          ),
-                                          TableRowItem(
-                                            orderStatus: ordersStatus,
-                                            value: order.completedAt.formatted,
-                                            order: order,
-                                          ),
-                                          TableRowItem(
-                                            orderStatus: ordersStatus,
-                                            value: order.user.name,
-                                            order: order,
-                                          ),
-                                          TableRowItem(
-                                            orderStatus: ordersStatus,
-                                            value: order.deliveryType,
-                                            order: order,
-                                          ),
-                                        ],
-                                      );
-                                    })),
-                              );
+                              return orders.length == 0
+                                  ? Center(
+                                      child: Text(Translations.of(context).get("No Orders Currently")),
+                                    )
+                                  : SingleChildScrollView(
+                                      child: Table(
+                                          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                                          columnWidths: const <int, TableColumnWidth>{
+                                            0: FixedColumnWidth(10),
+                                            1: FixedColumnWidth(40),
+                                            2: FixedColumnWidth(30),
+                                            3: FixedColumnWidth(5),
+                                          },
+                                          children: List.generate(orders.length, (j) {
+                                            var order = orders[j];
+                                            return TableRow(
+                                              decoration: BoxDecoration(color: j.isEven ? AppColors.shadow : AppColors.bg),
+                                              children: [
+                                                TableRowItem(
+                                                  orderStatus: ordersStatus,
+                                                  value: order.id.toString(),
+                                                  order: order,
+                                                ),
+                                                TableRowItem(
+                                                  orderStatus: ordersStatus,
+                                                  value: order.completedAt.formatted,
+                                                  order: order,
+                                                ),
+                                                TableRowItem(
+                                                  orderStatus: ordersStatus,
+                                                  value: order.user.name,
+                                                  order: order,
+                                                ),
+                                                TableRowItem(
+                                                  orderStatus: ordersStatus,
+                                                  value: order.deliveryType,
+                                                  order: order,
+                                                ),
+                                              ],
+                                            );
+                                          })),
+                                    );
                             }),
                           ),
                   )
@@ -171,22 +183,22 @@ class _OrdersPageState extends State<OrdersPage> {
   void getOrderStatus(int tabIndex) {
     switch (tabIndex) {
       case 0:
-        ordersStatus = 2;
+        ordersStatus = _orderStatusList[0]["value"];
         break;
       case 1:
-        ordersStatus = 10;
+        ordersStatus = _orderStatusList[1]["value"];
         break;
       case 2:
-        ordersStatus = 12;
+        ordersStatus = _orderStatusList[2]["value"];
         break;
       case 3:
-        ordersStatus = 20;
+        ordersStatus = _orderStatusList[3]["value"];
         break;
       case 4:
-        ordersStatus = 0;
+        ordersStatus = _orderStatusList[4]["value"];
         break;
       default:
-        ordersStatus = 2;
+        ordersStatus = _orderStatusList[0]["value"];
     }
   }
 }
