@@ -22,11 +22,11 @@ class OrdersPage extends StatefulWidget {
 
 class _OrdersPageState extends State<OrdersPage> {
   List<Map<String, dynamic>> _orderStatusList = [
-    {'title': 'New', 'value': "2"},
-    {'title': 'Preparing', 'value': "10"},
-    {'title': 'Ready', 'value': "12"},
-    {'title': 'Delivered', 'value': "20"},
-    {'title': 'Canceled', 'value': "0"},
+    {'title': 'New', 'value': '2'},
+    {'title': 'Preparing', 'value': '10'},
+    {'title': 'Ready', 'value': '12'},
+    {'title': 'Delivered', 'value': '20'},
+    {'title': 'Cancelled', 'value': '0'},
   ];
 
   final List<String> _tableColumnTitles = ['Order', 'Date', 'Customer', 'Type'];
