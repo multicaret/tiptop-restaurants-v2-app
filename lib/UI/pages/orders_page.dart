@@ -41,7 +41,7 @@ class _OrdersPageState extends State<OrdersPage> {
   AppProvider appProvider;
   RestaurantsProvider restaurantsProvider;
 
-  String ordersStatus = "2";
+  String ordersStatus;
   int restaurantId;
   int currentTabIndex = 0;
 
@@ -66,7 +66,7 @@ class _OrdersPageState extends State<OrdersPage> {
       ordersProvider = Provider.of<OrdersProvider>(context);
       appProvider = Provider.of<AppProvider>(context);
       restaurantsProvider = Provider.of<RestaurantsProvider>(context);
-      _fetchAndSetOrders("2");
+      _fetchAndSetOrders(_orderStatusList[0]['value']);
     }
     _isInit = false;
     super.didChangeDependencies();
