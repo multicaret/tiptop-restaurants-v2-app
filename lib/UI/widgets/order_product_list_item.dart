@@ -39,7 +39,7 @@ class OrderProductListItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: AppColors.border, width: 1.5),
               image: DecorationImage(
-                image: CachedNetworkImageProvider(product.media.coverThumbnail),
+                image: CachedNetworkImageProvider(product.media.coverSmall),
                 fit: BoxFit.cover,
               ),
             ),

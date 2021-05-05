@@ -131,7 +131,7 @@ class _FoodProductListItemState extends State<FoodProductListItem> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: CachedNetworkImage(
-                  imageUrl: widget.product.media.coverThumbnail,
+                  imageUrl: widget.product.media.coverSmall,
                   fit: BoxFit.cover,
                   width: listItemThumbnailSize,
                   height: listItemThumbnailSize,
