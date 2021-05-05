@@ -160,6 +160,9 @@ String getHttpExceptionMessage(responseData) {
   if (responseData["message"] != null) {
     exceptionMessage += '\nMessage: ${responseData["message"]}';
   }
+  if (responseData["errors"] != null) {
+    exceptionMessage += '\nErrors: ${responseData["errors"]}';
+  }
   if (responseData["file"] != null) {
     exceptionMessage += '\nFile: ${responseData["file"]}';
   }
