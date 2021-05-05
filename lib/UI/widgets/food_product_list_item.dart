@@ -92,14 +92,15 @@ class _FoodProductListItemState extends State<FoodProductListItem> {
                           builder: (context) => TextFieldDialog(
                             textFieldLabel: 'Enter Price',
                             keyboardType: TextInputType.number,
+                            initValue: widget.product.price.raw.toString(),
                           ),
                         ).then((price) {
                           if (price is String && price.isNotEmpty) {
                             _editProductPrice(widget.product.id, price);
+                            setState(() {
+                              widget.product.price.raw = double.parse(price);
+                            });
                           }
-                          setState(() {
-                            widget.product.price.raw = double.parse(price);
-                          });
                         }),
                       ),
                       Expanded(
