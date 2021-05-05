@@ -11,14 +11,14 @@ class TextFieldDialog extends StatefulWidget {
   final String title;
   final String image;
   final String textFieldLabel;
-  final TextEditingController controller;
+  final String initValue;
   final TextInputType keyboardType;
 
   TextFieldDialog({
     this.title,
     this.image,
     this.textFieldLabel,
-    this.controller,
+    this.initValue,
     this.keyboardType,
   });
 
@@ -39,7 +39,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
         Form(
           key: _formKey,
           child: AppTextField(
-            controller: textFieldController,
+            initialValue: widget.initValue,
             labelText: widget.textFieldLabel,
             hasInnerLabel: true,
             onSaved: (value) => textFieldValue = value,
