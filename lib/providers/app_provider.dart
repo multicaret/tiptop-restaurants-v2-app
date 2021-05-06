@@ -89,7 +89,7 @@ class AppProvider with ChangeNotifier {
   ];
 
   // Auth Related.
-  static const DOMAIN = 'https://titan.trytiptop.app/';
+  static const DOMAIN = 'https://trytiptop.app/';
   final Map<String, String> headers = {"accept": "application/json", "content-type": "application/json"};
   User authUser;
   int userId;
@@ -180,7 +180,6 @@ class AppProvider with ChangeNotifier {
       print("uri");
       print(uri);
       final response = await http.get(uri, headers: withToken && token != null ? authHeader : headers);
-
       if (response.statusCode == 401) {
         if (token != null) {
           print('Sending authenticated request with expired token! Logging out...');
