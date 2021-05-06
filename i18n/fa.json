@@ -37,7 +37,7 @@
   "Preparing": "في التحضير",
   "Ready": "جاهز",
   "Delivered": "تم التوصيل",
-  "Canceled": "ملغى",
+  "Cancelled": "ملغى",
   "Order Id" : "رقم الطلب",
   "Delivery Type": "نوع التوصيل",
   "Payment Method": "طريقة الدفع",
@@ -63,5 +63,7 @@
   "Closes at": "وقت الإغلاق",
   "Free": "مجاناً",
   "Restaurant Delivery": "توصيل المطعم",
-  "TipTop Delivery": "توصيل تيب توب"
+  "TipTop Delivery": "توصيل تيب توب",
+  "Enter Price": "ادخل السعر",
+  "No Orders Currently": "لا يوجد طلبات حالياً"
 }

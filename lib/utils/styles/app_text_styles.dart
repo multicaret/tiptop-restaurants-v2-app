@@ -96,7 +96,7 @@ class AppTextStyles {
   static const TextStyle bodyTable = const TextStyle(
     fontFamily: 'NeoSansArabic',
     color: AppColors.text,
-    fontSize: 14,
+    fontSize: 15,
     height: 1.4,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,

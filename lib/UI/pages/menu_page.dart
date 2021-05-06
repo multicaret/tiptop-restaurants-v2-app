@@ -16,6 +16,7 @@ import 'package:tiptop_v2/UI/widgets/scrollable_vertical_content.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/models/category.dart';
 import 'package:tiptop_v2/models/home.dart';
+import 'package:tiptop_v2/models/models.dart';
 import 'package:tiptop_v2/models/product.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/providers/restaurants_provider.dart';
@@ -38,9 +39,14 @@ class _MenuPageState extends State<MenuPage> {
   bool _isInit = true;
   bool _isLoadingRestaurantShowRequest = false;
   bool _showSearchFieldClearIcon = false;
+  bool productStatus = false;
+
+  bool restaurantIsActive = false;
 
   int restaurantId;
   Branch restaurant;
+  Product product;
+  DoubleRawStringFormatted productPrice;
 
   TextEditingController searchFieldController = TextEditingController();
   FocusNode searchFieldFocusNode = FocusNode();
@@ -72,11 +78,32 @@ class _MenuPageState extends State<MenuPage> {
 
   Future<void> _fetchAndSetRestaurant() async {
     setState(() => _isLoadingRestaurantShowRequest = true);
-    await restaurantsProvider.fetchAndSetRestaurant(appProvider, restaurantId);
-    restaurant = restaurantsProvider.restaurant;
-    menuCategories = restaurantsProvider.menuCategories;
-    print(restaurant != null ? 'restaurant chain id: ${restaurant.chain.id}' : '');
-    setState(() => _isLoadingRestaurantShowRequest = false);
+    try {
+      await restaurantsProvider.fetchAndSetRestaurant(appProvider, restaurantId);
+      restaurant = restaurantsProvider.restaurant;
+      menuCategories = restaurantsProvider.menuCategories;
+      restaurantIsActive = restaurant.workingHours.isOpen;
+      print("restaurantIsActiveOnInit: $restaurantIsActive");
+      setState(() => _isLoadingRestaurantShowRequest = false);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> _toggleRestaurantStatus() async {
+    bool _restaurantIsActive = restaurantIsActive;
+    setState(() => restaurantIsActive = !restaurantIsActive);
+    try {
+      await restaurantsProvider.toggleRestaurantStatus(
+        appProvider,
+        restaurantId,
+        _restaurantIsActive ? false : true,
+      );
+      print('restaurantIsActiveOnToggle: $restaurantIsActive');
+    } catch (e) {
+      setState(() => restaurantIsActive = _restaurantIsActive);
+      throw e;
+    }
   }
 
   @override
@@ -205,6 +232,10 @@ class _MenuPageState extends State<MenuPage> {
       appBar: AppBar(
         title: Text("Menu"),
         actions: [
+          Switch(
+            value: restaurantIsActive,
+            onChanged: (value) => _toggleRestaurantStatus(),
+          ),
           IconButton(
             icon: AppIcons.iconSPrimary(LineAwesomeIcons.user_circle),
             onPressed: () => Navigator.of(context, rootNavigator: true).pushNamed(ProfilePage.routeName),
@@ -307,7 +338,7 @@ class _MenuPageState extends State<MenuPage> {
                               (i) => FoodProductListItem(
                                 product: searchProductsResult[i],
                                 restaurantId: restaurant.id,
-                                chainId: restaurant.chain.id,
+                                productStatus: searchProductsResult[i].isActive,
                               ),
                             )
                           : List.generate(
@@ -330,7 +361,7 @@ class _MenuPageState extends State<MenuPage> {
                                       (j) => FoodProductListItem(
                                         product: menuCategories[i].products[j],
                                         restaurantId: restaurant.id,
-                                        chainId: restaurant.chain.id,
+                                        productStatus: menuCategories[i].products[j].isActive,
                                       ),
                                     ),
                                   ),

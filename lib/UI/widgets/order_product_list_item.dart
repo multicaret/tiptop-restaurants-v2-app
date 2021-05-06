@@ -10,7 +10,7 @@ import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 class OrderProductListItem extends StatelessWidget {
   final Product product;
   final String quantity;
-  final List<String> productOptions;
+  final List<ProductOption> productOptions;
 
   OrderProductListItem({
     @required this.product,
@@ -38,10 +38,10 @@ class OrderProductListItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: AppColors.border, width: 1.5),
-              // image: DecorationImage(
-              //   image: CachedNetworkImageProvider(product.media.coverThumbnail),
-              //   fit: BoxFit.cover,
-              // ),
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(product.media.coverSmall),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Expanded(

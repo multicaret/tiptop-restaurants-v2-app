@@ -37,7 +37,7 @@
   "Preparing": "Preparing",
   "Ready": "Ready",
   "Delivered": "Delivered",
-  "Canceled": "Canceled",
+  "Cancelled": "Cancelled",
   "Order Id": "Order ID",
   "Delivery Type": "Delivery Type",
   "Payment Method": "Payment Method",
@@ -63,5 +63,7 @@
   "Closes at": "Closes at",
   "Free": "Free",
   "Restaurant Delivery": "Restaurant Delivery",
-  "TipTop Delivery": "TipTop Delivery"
+  "TipTop Delivery": "TipTop Delivery",
+  "Enter Price": "Enter Price",
+  "No Orders Currently": "No Orders Currently"
 }

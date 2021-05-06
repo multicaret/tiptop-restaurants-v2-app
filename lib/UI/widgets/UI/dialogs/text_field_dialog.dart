@@ -11,13 +11,15 @@ class TextFieldDialog extends StatefulWidget {
   final String title;
   final String image;
   final String textFieldLabel;
-  final TextEditingController controller;
+  final String initValue;
+  final TextInputType keyboardType;
 
   TextFieldDialog({
     this.title,
     this.image,
     this.textFieldLabel,
-    this.controller,
+    this.initValue,
+    this.keyboardType,
   });
 
   @override
@@ -37,12 +39,13 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
         Form(
           key: _formKey,
           child: AppTextField(
-            controller: textFieldController,
+            initialValue: widget.initValue,
             labelText: widget.textFieldLabel,
             hasInnerLabel: true,
             onSaved: (value) => textFieldValue = value,
             required: true,
             fit: true,
+            keyboardType: widget.keyboardType,
           ),
         ),
       ],
@@ -50,7 +53,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
         DialogAction(
           text: 'Done',
           buttonColor: AppColors.secondary,
-          // onTap: _submit,
+          onTap: _submit,
         ),
         DialogAction(
           text: 'Cancel',
@@ -63,7 +66,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
   void _submit() {
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      showToast(msg: Translations.of(context).get('Please enter coupon code!'));
+      showToast(msg: Translations.of(context).get('Please enter a value!'));
       return;
     }
     Navigator.of(context).pop(textFieldValue);

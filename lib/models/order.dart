@@ -1,7 +1,56 @@
+import 'package:tiptop_v2/models/user.dart';
+
 import 'address.dart';
 import 'cart.dart';
-import 'enums.dart';
 import 'models.dart';
+
+class OrderResponse {
+  OrderResponse({
+    this.data,
+    this.errors,
+    this.message,
+    this.status,
+  });
+
+  OrderData data;
+  List<dynamic> errors;
+  String message;
+  int status;
+
+  factory OrderResponse.fromJson(Map<String, dynamic> json) => OrderResponse(
+        data: OrderData.fromJson(json["data"]),
+        errors: List<dynamic>.from(json["errors"].map((x) => x)),
+        message: json["message"],
+        status: json["status"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "data": data.toJson(),
+        "errors": List<dynamic>.from(errors.map((x) => x)),
+        "message": message,
+        "status": status,
+      };
+}
+
+class OrderData {
+  OrderData({
+    this.orders,
+    this.counts,
+  });
+
+  List<Order> orders;
+  Map<String, int> counts;
+
+  factory OrderData.fromJson(Map<String, dynamic> json) => OrderData(
+        orders: List<Order>.from(json["orders"].map((x) => Order.fromJson(x))),
+        counts: Map.from(json["counts"]).map((k, v) => MapEntry<String, int>(k, v)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "orders": List<dynamic>.from(orders.map((x) => x.toJson())),
+        "counts": Map.from(counts).map((k, v) => MapEntry<String, dynamic>(k, v)),
+      };
+}
 
 class CheckoutData {
   CheckoutData({
@@ -122,9 +171,11 @@ class PreviousOrdersResponseData {
 class Order {
   Order({
     this.id,
+    this.referenceCode,
     this.address,
     this.completedAt,
     this.couponCode,
+    this.deliveryType,
     this.couponDiscountAmount,
     this.totalAfterCouponDiscount,
     this.deliveryFee,
@@ -132,34 +183,42 @@ class Order {
     this.orderRating,
     this.status,
     this.cart,
+    this.user,
     this.paymentMethod,
   });
 
   int id;
+  int referenceCode;
   Address address;
   EdAt completedAt;
   String couponCode;
+  String deliveryType;
   DoubleRawStringFormatted couponDiscountAmount;
   DoubleRawStringFormatted totalAfterCouponDiscount;
   DoubleRawStringFormatted deliveryFee;
   DoubleRawStringFormatted grandTotal;
   OrderRating orderRating;
-  OrderStatus status;
+  int status;
+  User user;
   Cart cart;
   PaymentMethod paymentMethod;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json["id"],
-        address: Address.fromJson(json["address"]),
+        referenceCode: json["referenceCode"],
+        address: json["address"] == null ? null : Address.fromJson(json["address"]),
         completedAt: EdAt.fromJson(json["completedAt"]),
         couponCode: json["couponCode"],
         couponDiscountAmount: json["couponDiscountAmount"] == null ? null : DoubleRawStringFormatted.fromJson(json["couponDiscountAmount"]),
-        totalAfterCouponDiscount: json["totalAfterCouponDiscount"] == null ? null : DoubleRawStringFormatted.fromJson(json["totalAfterCouponDiscount"]),
+        totalAfterCouponDiscount:
+            json["totalAfterCouponDiscount"] == null ? null : DoubleRawStringFormatted.fromJson(json["totalAfterCouponDiscount"]),
         deliveryFee: DoubleRawStringFormatted.fromJson(json["deliveryFee"]),
+        deliveryType: json["deliveryType"],
         grandTotal: DoubleRawStringFormatted.fromJson(json["grandTotal"]),
         orderRating: OrderRating.fromJson(json["rating"]),
-        status: json["status"] == null ? null : orderStatusValues.map[json["status"].toString()],
-        cart: Cart.fromJson(json["cart"]),
+        status: json["status"],
+        user: User.fromJson(json["user"]),
+        cart: json["cart"] == null ? null : Cart.fromJson(json["cart"]),
         paymentMethod: PaymentMethod.fromJson(json["paymentMethod"]),
       );
 
@@ -242,7 +301,6 @@ class MarketOrderRatingAvailableIssue {
         "title": title,
       };
 }
-
 
 class FoodOrderRatingFactors {
   FoodOrderRatingFactors({

@@ -4,9 +4,9 @@ import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/models/category.dart';
 import 'package:tiptop_v2/models/enums.dart';
 import 'package:tiptop_v2/models/home.dart';
+import 'package:tiptop_v2/models/product.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/utils/helper.dart';
-import 'package:tiptop_v2/utils/http_exception.dart';
 
 class RestaurantsProvider with ChangeNotifier {
   Branch restaurant;
@@ -217,14 +217,27 @@ class RestaurantsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleRestaurantActivity(int restaurantId, Map<String, dynamic> restaurantActivityStatus) async {
-    final endpoint = 'restaurants/$restaurantId/toggle-activity';
-    final responseData = await AppProvider().post(endpoint: endpoint, body: restaurantActivityStatus);
-    restaurantActivityStatus = responseData["data"]["toggle_activity"];
+  Future<void> toggleRestaurantStatus(AppProvider appProvider, int restaurantId, bool restaurantStatus) async {
+    final endpoint = 'restaurants/$restaurantId/toggle-status';
+    final body = {"status": restaurantStatus};
+    final dynamic responseData = await appProvider.post(endpoint: endpoint, body: body, withToken: true);
+    print(responseData);
+    notifyListeners();
+  }
 
-    if (responseData["status"] != 200) {
-      throw HttpException(title: 'Http Exception Error', message: getHttpExceptionMessage(responseData));
-    }
+  Future<void> toggleProductStatus(AppProvider appProvider, int restaurantId, int productId, bool productStatus) async {
+    final endpoint = 'restaurants/$restaurantId/products/$productId/toggle-status';
+    final body = {"status": productStatus};
+    final dynamic responseData = await appProvider.post(endpoint: endpoint, body: body, withToken: true);
+    print(responseData);
+    notifyListeners();
+  }
+
+  Future<void> editProductPrice(AppProvider appProvider, int restaurantId, int productId, String price) async {
+    final endpoint = 'restaurants/$restaurantId/products/$productId';
+    final body = {"price": price};
+    final dynamic responseData = await appProvider.post(endpoint: endpoint, body: body, withToken: true);
+    print(responseData);
     notifyListeners();
   }
 }
