@@ -7,7 +7,7 @@ import 'package:tiptop_v2/UI/pages/profile/customer_service.dart';
 import 'package:tiptop_v2/UI/pages/profile/privacy_page.dart';
 import 'package:tiptop_v2/UI/pages/profile/about_page.dart';
 import 'package:tiptop_v2/UI/pages/profile/edit_restaurant_page.dart';
-import 'package:tiptop_v2/UI/pages/walkthrough_page.dart';
+import 'package:tiptop_v2/UI/pages/login_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/profile_setting_item.dart';
 import 'package:tiptop_v2/i18n/translations.dart';

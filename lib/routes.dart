@@ -10,7 +10,7 @@ import 'package:tiptop_v2/UI/pages/profile/edit_restaurant_page.dart';
 import 'package:tiptop_v2/UI/pages/profile/privacy_page.dart';
 import 'package:tiptop_v2/UI/pages/profile/about_page.dart';
 import 'package:tiptop_v2/UI/pages/profile_page.dart';
-import 'package:tiptop_v2/UI/pages/walkthrough_page.dart';
+import 'package:tiptop_v2/UI/pages/login_page.dart';
 
 final routes = <String, WidgetBuilder>{
   AboutPage.routeName: (BuildContext context) => AboutPage(),

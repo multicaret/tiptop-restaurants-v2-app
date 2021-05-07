@@ -7,6 +7,7 @@ import 'package:tiptop_v2/i18n/translations.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/utils/constants.dart';
 import 'package:tiptop_v2/utils/helper.dart';
+import 'package:tiptop_v2/utils/http_exception.dart';
 import 'package:tiptop_v2/utils/styles/app_buttons.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
 import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
@@ -105,20 +106,20 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
     });
     _formKey.currentState.save();
     try {
-      await appProvider
-          .login(loginData['email'], loginData['password'])
-          .then((_) => Navigator.push(context, MaterialPageRoute(builder: (context) => AppWrapper())));
+      await appProvider.login(loginData['email'], loginData['password']);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => AppWrapper()));
       msg = Translations.of(context).get('Login Successful');
       showToast(msg: msg);
       setState(() {
         _isLoading = false;
       });
-    } catch (error) {
+    } on HttpException catch (error) {
+      appAlert(context: context, title: 'An Error Occurred', description: error.getErrorsAsString()).show();
+      setState(() => _isLoading = false);
+    }  catch (error) {
       msg = Translations.of(context).get('An Error Occurred');
       showToast(msg: msg);
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
       throw error;
     }
   }

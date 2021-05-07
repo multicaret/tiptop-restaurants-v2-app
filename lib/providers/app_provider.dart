@@ -326,6 +326,13 @@ class AppProvider with ChangeNotifier {
     );
 
     AuthRequestData authRequestData = AuthRequestData.fromJson(responseData['data']);
+    if (authRequestData.restaurant == null) {
+      throw HttpException(
+        title: "No restaurant",
+        message: "No restaurant found for this user",
+        errors: {"restaurant": ["No restaurant found for this user"]},
+      );
+    }
     Approval approval = authRequestData.isApproved;
     if (approval.enabled) {
       throw HttpException(title: "Approval Needed", message: approval.message);
@@ -392,40 +399,40 @@ class AppProvider with ChangeNotifier {
   BootData bootData;
   static AppChannel appDefaultChannel;
 
-  // Future<void> fetchBootConfigurations() async {
-  //   mobileAppDetails = await loadMobileAppDetails();
-  //   final Map<String, String> body = {
-  //     'build_number': mobileAppDetails['buildNumber'],
-  //     'platform': mobileAppDetails['device']['platform'],
-  //   };
-  //   final responseData = await get(endpoint: 'boot', body: body);
-  //   bootData = BootData.fromJson(responseData["data"]);
-  //   bootConfigs = bootData.bootConfigs;
-  //   appDefaultChannel = bootData.defaultChannel ?? AppChannel.MARKET;
-  //   print('selected channel is:');
-  //   print(appDefaultChannel);
-  //   print("bootConfigs");
-  //   if (bootConfigs != null) {
-  //     print("bootConfigs.updateMethod");
-  //     print(bootConfigs.updateMethod);
-  //     if (bootConfigs.updateMethod == 2) {
-  //       print("HARD");
-  //       isForceUpdateEnabled = true;
-  //     } else if (bootConfigs.updateMethod == 1) {
-  //       print("SOFT");
-  //       isSoftUpdateEnabled = true;
-  //     }
-  //   }
-  //
-  //   /*bool isStorageCleared = storageActions.checkKey(key: 'storage_cleared');
-  //   if (!isStorageCleared) {
-  //     print('APP YIELD! your locale storage has been cleared!');
-  //     LocalStorage().clear();
-  //     // notifyListeners();
-  //   }*/
-  //
-  //   // notifyListeners();
-  // }
+// Future<void> fetchBootConfigurations() async {
+//   mobileAppDetails = await loadMobileAppDetails();
+//   final Map<String, String> body = {
+//     'build_number': mobileAppDetails['buildNumber'],
+//     'platform': mobileAppDetails['device']['platform'],
+//   };
+//   final responseData = await get(endpoint: 'boot', body: body);
+//   bootData = BootData.fromJson(responseData["data"]);
+//   bootConfigs = bootData.bootConfigs;
+//   appDefaultChannel = bootData.defaultChannel ?? AppChannel.MARKET;
+//   print('selected channel is:');
+//   print(appDefaultChannel);
+//   print("bootConfigs");
+//   if (bootConfigs != null) {
+//     print("bootConfigs.updateMethod");
+//     print(bootConfigs.updateMethod);
+//     if (bootConfigs.updateMethod == 2) {
+//       print("HARD");
+//       isForceUpdateEnabled = true;
+//     } else if (bootConfigs.updateMethod == 1) {
+//       print("SOFT");
+//       isSoftUpdateEnabled = true;
+//     }
+//   }
+//
+//   /*bool isStorageCleared = storageActions.checkKey(key: 'storage_cleared');
+//   if (!isStorageCleared) {
+//     print('APP YIELD! your locale storage has been cleared!');
+//     LocalStorage().clear();
+//     // notifyListeners();
+//   }*/
+//
+//   // notifyListeners();
+// }
 
 /*  Future<void> sendAppFirstVisitEvent() async {
     print('Sending app open event!');
