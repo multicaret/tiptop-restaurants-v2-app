@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/pages/drivers_page.dart';
-import 'package:tiptop_v2/UI/pages/menu_page.dart';
+import 'package:tiptop_v2/UI/pages/restaurant_menu_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/orders_fab.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
@@ -68,7 +68,7 @@ class _AppWrapperState extends State<AppWrapper> {
     return [
       {
         'title': 'Menu',
-        'page': MenuPage(),
+        'page': RestaurantMenuPage(),
         'icon': LineAwesomeIcons.utensils,
       },
       {

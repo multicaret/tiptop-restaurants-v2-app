@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:tiptop_v2/UI/pages/profile_page.dart';
@@ -19,6 +20,7 @@ import 'package:tiptop_v2/models/home.dart';
 import 'package:tiptop_v2/models/models.dart';
 import 'package:tiptop_v2/models/product.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
+import 'package:tiptop_v2/providers/one_signal_notifications_provider.dart';
 import 'package:tiptop_v2/providers/restaurants_provider.dart';
 import 'package:tiptop_v2/utils/constants.dart';
 import 'package:tiptop_v2/utils/helper.dart';
@@ -26,14 +28,17 @@ import 'package:tiptop_v2/utils/styles/app_colors.dart';
 import 'package:tiptop_v2/utils/styles/app_icons.dart';
 import 'package:tiptop_v2/utils/ui_helper.dart';
 
-class MenuPage extends StatefulWidget {
+class RestaurantMenuPage extends StatefulWidget {
   static const routeName = '/restaurant';
 
   @override
-  _MenuPageState createState() => _MenuPageState();
+  _RestaurantMenuPageState createState() => _RestaurantMenuPageState();
 }
 
-class _MenuPageState extends State<MenuPage> {
+class _RestaurantMenuPageState extends State<RestaurantMenuPage> {
+  OneSignalNotificationsProvider _oneSignalNotificationsProvider;
+  StreamSubscription<OSNotificationPayload> _listener;
+
   AutoScrollController categoriesScrollController;
   AutoScrollController productsScrollController;
   bool _isInit = true;
@@ -106,56 +111,6 @@ class _MenuPageState extends State<MenuPage> {
     }
   }
 
-  @override
-  void initState() {
-    categoriesScrollController = AutoScrollController(
-      viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
-      axis: Axis.horizontal,
-    );
-
-    productsScrollController = AutoScrollController(
-      viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
-      axis: Axis.vertical,
-    );
-    productsScrollController.addListener(scrollListener);
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      appProvider = Provider.of<AppProvider>(context);
-      restaurantsProvider = Provider.of<RestaurantsProvider>(context);
-      restaurantId = appProvider.restaurantId;
-      _fetchAndSetRestaurant().then((_) {
-        expandedHeaderHeight = getRestaurantPageExpandedHeaderHeight(
-          hasDoubleDelivery:
-              restaurant == null ? true : restaurant.tiptopDelivery.isDeliveryEnabled && restaurant.restaurantDelivery.isDeliveryEnabled,
-        );
-        categoriesHeights = List.generate(
-            menuCategories.length,
-            (i) => {
-                  'id': menuCategories[i].id,
-                  'height': listItemHeight * menuCategories[i].products.length,
-                });
-        if (menuCategories.length > 0) {
-          selectedCategoryIdNotifier.value = menuCategories[0].id;
-        }
-      });
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    productsScrollController.removeListener(scrollListener);
-    productsScrollController.dispose();
-    searchFieldController.dispose();
-    searchFieldFocusNode.dispose();
-    super.dispose();
-  }
-
   void scrollToCategory(int index) {
     categoriesScrollController.scrollToIndex(
       index,
@@ -214,7 +169,7 @@ class _MenuPageState extends State<MenuPage> {
       setState(() => debounceTimer.cancel());
     }
     setState(
-      () => debounceTimer = Timer(duration, () {
+          () => debounceTimer = Timer(duration, () {
         if (this.mounted && value.length != 0) {
           setState(() {
             _showSearchFieldClearIcon = true;
@@ -223,6 +178,72 @@ class _MenuPageState extends State<MenuPage> {
         }
       }),
     );
+  }
+
+  @override
+  void initState() {
+    categoriesScrollController = AutoScrollController(
+      viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+      axis: Axis.horizontal,
+    );
+
+    productsScrollController = AutoScrollController(
+      viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+      axis: Axis.vertical,
+    );
+    productsScrollController.addListener(scrollListener);
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      appProvider = Provider.of<AppProvider>(context);
+      restaurantsProvider = Provider.of<RestaurantsProvider>(context);
+      restaurantId = appProvider.restaurantId;
+      _fetchAndSetRestaurant().then((_) {
+        expandedHeaderHeight = getRestaurantPageExpandedHeaderHeight(
+          hasDoubleDelivery:
+              restaurant == null ? true : restaurant.tiptopDelivery.isDeliveryEnabled && restaurant.restaurantDelivery.isDeliveryEnabled,
+        );
+        categoriesHeights = List.generate(
+            menuCategories.length,
+            (i) => {
+                  'id': menuCategories[i].id,
+                  'height': listItemHeight * menuCategories[i].products.length,
+                });
+        if (menuCategories.length > 0) {
+          selectedCategoryIdNotifier.value = menuCategories[0].id;
+        }
+      });
+
+      _oneSignalNotificationsProvider = Provider.of<OneSignalNotificationsProvider>(context);
+      if (_oneSignalNotificationsProvider != null && _oneSignalNotificationsProvider.getPayload != null) {
+        _oneSignalNotificationsProvider.initOneSignal();
+        if (appProvider.isAuth && appProvider.authUser != null) {
+          _oneSignalNotificationsProvider.handleSetExternalUserId(appProvider.authUser.id.toString());
+        }
+
+        _listener = _oneSignalNotificationsProvider.getPayload.listen(null);
+        _listener.onData((event) {
+          print("Is opened: ${OneSignalNotificationsProvider.notificationHasOpened}");
+          if (event.additionalData != null) {
+            print(event.additionalData.keys.toString());
+          }
+        });
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    productsScrollController.removeListener(scrollListener);
+    productsScrollController.dispose();
+    searchFieldController.dispose();
+    searchFieldFocusNode.dispose();
+    super.dispose();
   }
 
   @override
