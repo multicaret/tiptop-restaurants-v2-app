@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:tiptop_v2/UI/pages/orders_page.dart';
 import 'package:tiptop_v2/utils/styles/app_colors.dart';
@@ -21,7 +22,7 @@ class OrdersFAB extends StatelessWidget {
             children: [
               Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(bottom: Platform.isIOS ? 30 : 5),
+                margin: EdgeInsets.only(bottom: Platform.isIOS ? 45 : 5),
                 height: 75,
                 width: 75,
                 decoration: const BoxDecoration(
@@ -32,8 +33,8 @@ class OrdersFAB extends StatelessWidget {
                   ],
                 ),
                 child: Icon(
-                  LineAwesomeIcons.th_list,
-                  size: 50,
+                  FontAwesomeIcons.receipt,
+                  size: 35,
                   color: AppColors.white.withOpacity(0.5),
                 ),
               ),

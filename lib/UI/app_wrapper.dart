@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tiptop_v2/UI/pages/drivers_page.dart';
 import 'package:tiptop_v2/UI/pages/restaurant_menu_page.dart';
@@ -56,9 +56,7 @@ class _AppWrapperState extends State<AppWrapper> {
                       ? EdgeInsets.only(right: tabWidth / 4)
                       : EdgeInsets.only(left: tabWidth / 4)
                   : EdgeInsets.all(0),
-          child: Icon(
-            _cupertinoTabsList[i]['icon'],
-          ),
+          child: Icon(_cupertinoTabsList[i]['icon']),
         ),
       );
     });
@@ -69,12 +67,12 @@ class _AppWrapperState extends State<AppWrapper> {
       {
         'title': 'Menu',
         'page': RestaurantMenuPage(),
-        'icon': LineAwesomeIcons.utensils,
+        'icon': FontAwesomeIcons.pizzaSlice,
       },
       {
         'title': 'Drivers',
         'page': DriversPage(),
-        'icon': LineAwesomeIcons.motorcycle,
+        'icon': FontAwesomeIcons.biking,
       },
     ];
   }

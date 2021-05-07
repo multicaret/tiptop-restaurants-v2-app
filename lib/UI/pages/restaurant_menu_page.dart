@@ -258,7 +258,7 @@ class _RestaurantMenuPageState extends State<RestaurantMenuPage> {
             onChanged: (value) => _toggleRestaurantStatus(),
           ),
           IconButton(
-            icon: AppIcons.iconSPrimary(LineAwesomeIcons.user_circle),
+            icon: AppIcons.iconSPrimary(LineAwesomeIcons.cog),
             onPressed: () => Navigator.of(context, rootNavigator: true).pushNamed(ProfilePage.routeName),
           ),
         ],

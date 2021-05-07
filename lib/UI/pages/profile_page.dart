@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
     },
     {
       'title': "Change Language",
-      'icon': FontAwesomeIcons.globe,
+      'icon': FontAwesomeIcons.language,
       'route': LanguageSelectPage.routeName,
     },
     {
