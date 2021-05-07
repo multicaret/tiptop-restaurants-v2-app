@@ -5,6 +5,7 @@ import 'package:tiptop_v2/UI/widgets/UI/app_loader.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
 import 'package:tiptop_v2/UI/widgets/table_row_item.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
+import 'package:tiptop_v2/models/enums.dart';
 import 'package:tiptop_v2/models/order.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
 import 'package:tiptop_v2/providers/orders_provider.dart';
@@ -21,11 +22,11 @@ class OrdersPage extends StatefulWidget {
 
 class _OrdersPageState extends State<OrdersPage> {
   List<Map<String, dynamic>> _orderStatusList = [
-    {'title': 'New', 'value': 2},
-    {'title': 'Preparing', 'value': 10},
-    {'title': 'Ready', 'value': 12},
-    {'title': 'Delivered', 'value': 20},
-    {'title': 'Cancelled', 'value': 0},
+    {'title': 'New', 'value': OrderStatus.NEW},
+    {'title': 'Preparing', 'value': OrderStatus.PREPARING},
+    {'title': 'Ready', 'value': OrderStatus.READY},
+    {'title': 'Delivered', 'value': OrderStatus.DELIVERED},
+    {'title': 'Cancelled', 'value': OrderStatus.CANCELLED},
   ];
 
   final List<String> _tableColumnTitles = ['Order', 'Date', 'Customer', 'Type'];
@@ -40,14 +41,14 @@ class _OrdersPageState extends State<OrdersPage> {
   AppProvider appProvider;
   RestaurantsProvider restaurantsProvider;
 
-  int ordersStatus;
+  OrderStatus ordersStatus;
   int restaurantId;
   int currentTabIndex = 0;
 
   List<Order> orders = [];
   Map<String, int> counts;
 
-  Future<void> _fetchAndSetOrders(int ordersStatus) async {
+  Future<void> _fetchAndSetOrders(OrderStatus ordersStatus) async {
     setState(() => _isLoadingOrders = true);
     await ordersProvider.fetchAndSetOrders(appProvider, appProvider.restaurantId, ordersStatus);
     restaurantId = restaurantsProvider.restaurant.id;
@@ -66,7 +67,7 @@ class _OrdersPageState extends State<OrdersPage> {
       appProvider = Provider.of<AppProvider>(context);
       restaurantsProvider = Provider.of<RestaurantsProvider>(context);
       _fetchAndSetOrders(_orderStatusList[0]['value']);
-      getOrderStatus(0);
+      ordersStatus = _orderStatusList[0]["value"];
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -88,7 +89,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 children: [
                   OrdersStatusTabs(
                     onTap: (index) {
-                      getOrderStatus(index);
+                      ordersStatus = _orderStatusList[index]["value"];
                       _fetchAndSetOrders(ordersStatus);
                     },
                     tabs: List.generate(_orderStatusList.length, (i) {
@@ -102,7 +103,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(20.0)),
                               child: Text(
-                                counts[_orderStatusList[i]["value"]].toString(),
+                                counts[restaurantOrderStatusValues.reverse[_orderStatusList[i]["value"]]].toString(),
                                 style: AppTextStyles.subtitleXs,
                               ),
                             ),
@@ -179,27 +180,5 @@ class _OrdersPageState extends State<OrdersPage> {
               ),
       ),
     );
-  }
-
-  void getOrderStatus(int tabIndex) {
-    switch (tabIndex) {
-      case 0:
-        ordersStatus = _orderStatusList[0]["value"];
-        break;
-      case 1:
-        ordersStatus = _orderStatusList[1]["value"];
-        break;
-      case 2:
-        ordersStatus = _orderStatusList[2]["value"];
-        break;
-      case 3:
-        ordersStatus = _orderStatusList[3]["value"];
-        break;
-      case 4:
-        ordersStatus = _orderStatusList[4]["value"];
-        break;
-      default:
-        ordersStatus = _orderStatusList[0]["value"];
-    }
   }
 }

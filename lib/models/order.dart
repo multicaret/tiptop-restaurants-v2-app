@@ -2,6 +2,7 @@ import 'package:tiptop_v2/models/user.dart';
 
 import 'address.dart';
 import 'cart.dart';
+import 'enums.dart';
 import 'models.dart';
 
 class OrderResponse {
@@ -198,7 +199,7 @@ class Order {
   DoubleRawStringFormatted deliveryFee;
   DoubleRawStringFormatted grandTotal;
   OrderRating orderRating;
-  int status;
+  OrderStatus status;
   User user;
   Cart cart;
   PaymentMethod paymentMethod;
@@ -216,7 +217,7 @@ class Order {
         deliveryType: json["deliveryType"],
         grandTotal: DoubleRawStringFormatted.fromJson(json["grandTotal"]),
         orderRating: OrderRating.fromJson(json["rating"]),
-        status: json["status"],
+        status: json["status"] == null ? null : restaurantOrderStatusValues.map[json["status"].toString()],
         user: User.fromJson(json["user"]),
         cart: json["cart"] == null ? null : Cart.fromJson(json["cart"]),
         paymentMethod: PaymentMethod.fromJson(json["paymentMethod"]),

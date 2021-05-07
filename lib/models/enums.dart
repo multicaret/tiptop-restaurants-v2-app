@@ -88,6 +88,7 @@ enum OrderStatus {
   ON_THE_WAY,
   AT_THE_ADDRESS,
   DELIVERED,
+  READY,
   SCHEDULED,
 }
 
@@ -101,6 +102,14 @@ final orderStatusValues = EnumValues({
   "18": OrderStatus.AT_THE_ADDRESS,
   "20": OrderStatus.DELIVERED,
   "25": OrderStatus.SCHEDULED,
+});
+
+final restaurantOrderStatusValues = EnumValues({
+  "2": OrderStatus.NEW,
+  "10": OrderStatus.PREPARING,
+  "12": OrderStatus.READY,
+  "20": OrderStatus.DELIVERED,
+  "0": OrderStatus.CANCELLED,
 });
 
 enum ProductOptionType {

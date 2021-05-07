@@ -6,6 +6,7 @@ import 'package:tiptop_v2/UI/widgets/UI/section_title.dart';
 import 'package:tiptop_v2/UI/widgets/order_product_list_item.dart';
 import 'package:tiptop_v2/UI/widgets/payment_summary.dart';
 import 'package:tiptop_v2/i18n/translations.dart';
+import 'package:tiptop_v2/models/enums.dart';
 import 'package:tiptop_v2/models/models.dart';
 import 'package:tiptop_v2/models/order.dart';
 import 'package:tiptop_v2/models/product.dart';
@@ -154,7 +155,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
               ),
             ),
           ),
-          if (widget.order.status == 2)
+          if (widget.order.status == OrderStatus.NEW)
             Container(
               height: actionButtonContainerHeight,
               decoration: BoxDecoration(border: Border(top: BorderSide(color: AppColors.border))),
@@ -203,7 +204,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 ],
               ),
             ),
-          if (widget.order.status == 10)
+          if (widget.order.status == OrderStatus.PREPARING)
             Container(
               height: actionButtonContainerHeight,
               padding: const EdgeInsets.only(
