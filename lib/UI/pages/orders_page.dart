@@ -21,11 +21,11 @@ class OrdersPage extends StatefulWidget {
 
 class _OrdersPageState extends State<OrdersPage> {
   List<Map<String, dynamic>> _orderStatusList = [
-    {'title': 'New', 'value': '2'},
-    {'title': 'Preparing', 'value': '10'},
-    {'title': 'Ready', 'value': '12'},
-    {'title': 'Delivered', 'value': '20'},
-    {'title': 'Cancelled', 'value': '0'},
+    {'title': 'New', 'value': 2},
+    {'title': 'Preparing', 'value': 10},
+    {'title': 'Ready', 'value': 12},
+    {'title': 'Delivered', 'value': 20},
+    {'title': 'Cancelled', 'value': 0},
   ];
 
   final List<String> _tableColumnTitles = ['Order', 'Date', 'Customer', 'Type'];
@@ -40,14 +40,14 @@ class _OrdersPageState extends State<OrdersPage> {
   AppProvider appProvider;
   RestaurantsProvider restaurantsProvider;
 
-  String ordersStatus;
+  int ordersStatus;
   int restaurantId;
   int currentTabIndex = 0;
 
   List<Order> orders = [];
   Map<String, int> counts;
 
-  Future<void> _fetchAndSetOrders(String ordersStatus) async {
+  Future<void> _fetchAndSetOrders(int ordersStatus) async {
     setState(() => _isLoadingOrders = true);
     await ordersProvider.fetchAndSetOrders(appProvider, appProvider.restaurantId, ordersStatus);
     restaurantId = restaurantsProvider.restaurant.id;
@@ -66,6 +66,7 @@ class _OrdersPageState extends State<OrdersPage> {
       appProvider = Provider.of<AppProvider>(context);
       restaurantsProvider = Provider.of<RestaurantsProvider>(context);
       _fetchAndSetOrders(_orderStatusList[0]['value']);
+      getOrderStatus(0);
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -152,22 +153,18 @@ class _OrdersPageState extends State<OrdersPage> {
                                               decoration: BoxDecoration(color: j.isEven ? AppColors.shadow : AppColors.bg),
                                               children: [
                                                 TableRowItem(
-                                                  orderStatus: ordersStatus,
                                                   value: order.id.toString(),
                                                   order: order,
                                                 ),
                                                 TableRowItem(
-                                                  orderStatus: ordersStatus,
                                                   value: order.completedAt.formatted,
                                                   order: order,
                                                 ),
                                                 TableRowItem(
-                                                  orderStatus: ordersStatus,
                                                   value: order.user.name,
                                                   order: order,
                                                 ),
                                                 TableRowItem(
-                                                  orderStatus: ordersStatus,
                                                   value: order.deliveryType,
                                                   order: order,
                                                 ),

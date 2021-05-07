@@ -9,9 +9,9 @@ class OrdersProvider with ChangeNotifier {
   List<Order> orders = [];
   Map<String, int> counts;
 
-  Future<dynamic> fetchAndSetOrders(AppProvider appProvider, int restaurantID, String orderStatus) async {
+  Future<dynamic> fetchAndSetOrders(AppProvider appProvider, int restaurantID, int orderStatus) async {
     final endpoint = 'restaurants/$restaurantID/orders';
-    final body = {"status": orderStatus};
+    final body = {"status": orderStatus.toString()};
     final responseData = await appProvider.get(endpoint: endpoint, body: body, withToken: true);
     orderData = OrderData.fromJson(responseData["data"]);
     orders = orderData.orders;
