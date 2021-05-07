@@ -256,6 +256,7 @@ class _RestaurantMenuPageState extends State<RestaurantMenuPage> {
           Switch(
             value: restaurantIsActive,
             onChanged: (value) => _toggleRestaurantStatus(),
+            activeColor: AppColors.primary,
           ),
           IconButton(
             icon: AppIcons.iconSPrimary(LineAwesomeIcons.cog),
