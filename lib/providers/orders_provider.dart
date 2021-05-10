@@ -19,4 +19,12 @@ class OrdersProvider with ChangeNotifier {
     counts = orderData.counts;
     notifyListeners();
   }
+
+  Future<void> changeOrderStatus(AppProvider appProvider, int restaurantId, int orderId, OrderStatus orderStatus) async {
+    final endpoint = 'restaurants/$restaurantId/orders/$orderId';
+    final body = {"status": restaurantOrderStatusValues.reverse[orderStatus]};
+    final dynamic responseData = await appProvider.post(endpoint: endpoint, body: body, withToken: true);
+    print(responseData);
+    notifyListeners();
+  }
 }

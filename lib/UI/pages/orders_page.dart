@@ -101,7 +101,8 @@ class _OrdersPageState extends State<OrdersPage> {
                               decoration: BoxDecoration(
                                   color: i == 0 ? AppColors.danger : AppColors.secondary,
                                   shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(20.0)),
+                                  borderRadius: BorderRadius.circular(20.0)
+                              ),
                               child: Text(
                                 counts[restaurantOrderStatusValues.reverse[_orderStatusList[i]["value"]]].toString(),
                                 style: AppTextStyles.subtitleXs,
@@ -137,7 +138,9 @@ class _OrdersPageState extends State<OrdersPage> {
                             children: List.generate(_orderStatusList.length, (i) {
                               return orders.length == 0
                                   ? Center(
-                                      child: Text(Translations.of(context).get("No Orders Currently")),
+                                      child: Text(
+                                          Translations.of(context).get("No Orders Currently")
+                                      ),
                                     )
                                   : SingleChildScrollView(
                                       child: Table(
@@ -154,24 +157,29 @@ class _OrdersPageState extends State<OrdersPage> {
                                               decoration: BoxDecoration(color: j.isEven ? AppColors.shadow : AppColors.bg),
                                               children: [
                                                 TableRowItem(
-                                                  value: order.id.toString(),
+                                                  call: () => _fetchAndSetOrders(ordersStatus),
+                                                  value: order.referenceCode.toString(),
                                                   order: order,
                                                 ),
                                                 TableRowItem(
+                                                  call: () => _fetchAndSetOrders(ordersStatus),
                                                   value: order.completedAt.formatted,
                                                   order: order,
                                                 ),
                                                 TableRowItem(
+                                                  call: () => _fetchAndSetOrders(ordersStatus),
                                                   value: order.user.name,
                                                   order: order,
                                                 ),
                                                 TableRowItem(
+                                                  call: () => _fetchAndSetOrders(ordersStatus),
                                                   value: order.deliveryType,
                                                   order: order,
                                                 ),
                                               ],
                                             );
-                                          })),
+                                          })
+                                      ),
                                     );
                             }),
                           ),

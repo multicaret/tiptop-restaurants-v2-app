@@ -7,8 +7,10 @@ import 'package:tiptop_v2/utils/styles/app_text_styles.dart';
 class TableRowItem extends StatelessWidget {
   final String value;
   final Order order;
+  final Function call;
 
   TableRowItem({
+    this.call,
     this.value,
     this.order,
   });
@@ -16,11 +18,16 @@ class TableRowItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TableRowInkWell(
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OrderDetailsPage(order: order),
-          )),
+      onTap: () async {
+        var orderStatusChanged = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return OrderDetailsPage(order: order);
+              },
+            ));
+        if(orderStatusChanged)  call();
+      },
       child: Container(
         child: Padding(
           padding: const EdgeInsets.only(left: screenHorizontalPadding, right: screenHorizontalPadding, top: 10, bottom: 10),
