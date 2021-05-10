@@ -1,4 +1,4 @@
-package app.trytiptop.restaurants1
+package app.trytiptop.tiptop_restaurant
 
 import com.zoho.commons.ChatComponent
 import com.zoho.livechat.android.ZohoLiveChat

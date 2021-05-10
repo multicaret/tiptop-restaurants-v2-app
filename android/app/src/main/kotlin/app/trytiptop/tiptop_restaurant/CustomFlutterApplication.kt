@@ -1,4 +1,4 @@
-//package app.trytiptop.restaurants1
+//package app.trytiptop.tiptop_restaurant
 //
 //import io.flutter.app.FlutterApplication;
 //import com.instabug.instabugflutter.InstabugFlutterPlugin;

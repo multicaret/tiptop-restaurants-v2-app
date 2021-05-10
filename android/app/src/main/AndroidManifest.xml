@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.trytiptop.restaurants1">
+    package="app.trytiptop.tiptop_restaurant">
    <application
         android:name=".MyFlutterApplication"
         android:label="tiptop_restaurant_v2"

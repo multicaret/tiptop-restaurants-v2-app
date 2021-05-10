@@ -1,4 +1,4 @@
-package app.trytiptop.restaurants1;
+package app.trytiptop.tiptop_restaurant;
 
 import com.instabug.instabugflutter.InstabugFlutterPlugin;
 import com.zoho.commons.Fonts;
