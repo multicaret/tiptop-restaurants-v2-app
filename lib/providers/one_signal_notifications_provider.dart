@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tiptop_v2/providers/app_provider.dart';
 
 class OneSignalNotificationsProvider with ChangeNotifier {
-  static const String ONE_SIGNAL_APP_ID = "a8feae53-9db1-4b5d-8e9c-b4a8e309bb82";
+  static const String ONE_SIGNAL_APP_ID = "fa5949d9-e5e0-4ae9-a01d-3f2db9a4ecb7";
   static const bool REQUIRE_CONSENT = false;
   static bool notificationHasOpened = false;
   static bool permissionIsAllowedIOS = false;
@@ -15,6 +17,7 @@ class OneSignalNotificationsProvider with ChangeNotifier {
   BehaviorSubject<OSNotificationPayload> _payloadSubject = BehaviorSubject<OSNotificationPayload>(onListen: onListen, onCancel: onCancel);
 
   Stream<OSNotificationPayload> get getPayload => _payloadSubject.asBroadcastStream();
+  static const platform = const MethodChannel('io.trytiptop.native_channel');
 
   OneSignalNotificationsProvider();
 
@@ -28,7 +31,7 @@ class OneSignalNotificationsProvider with ChangeNotifier {
     _payloadSubject.add(null);
   }
 
-  void initOneSignal() async {
+  void initOneSignal(AppProvider appProvider) async {
     print('=========> init-one-signal');
     OneSignal.shared.setLogLevel(OSLogLevel.none, OSLogLevel.none);
     OneSignal.shared.setRequiresUserPrivacyConsent(REQUIRE_CONSENT); // Todo: set true if important
@@ -81,6 +84,14 @@ class OneSignalNotificationsProvider with ChangeNotifier {
         print("SUBSCRIPTION STATE CHANGED: ${changes.jsonRepresentation()}");
       });
     }
+
+    var locale = await appProvider.fetchLocale();
+    var localeString = locale.toString();
+    if (locale.toString() == 'fa') {
+      localeString = 'ku';
+    }
+
+    platform.invokeMethod('change_language', {'locale': localeString});
 
     // print("Setting consent to true");
     // OneSignal.shared.consentGranted(true);

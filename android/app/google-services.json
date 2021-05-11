@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "749471735671",
+    "project_id": "restaurants-staging-5a52b",
+    "storage_bucket": "restaurants-staging-5a52b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749471735671:android:c5e03a4d01b3b8e2564b72",
+        "android_client_info": {
+          "package_name": "app.trytiptop.restaurants.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749471735671-74a7iekctqnoivp26a8mpjm3lrnqs85h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUg4J6t8oLod6_FkHCb5be6FD0wBCOuRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749471735671-74a7iekctqnoivp26a8mpjm3lrnqs85h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "749471735671-fq57prfrqfjarha4st70u2cnnvlak569.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.trytiptop.restaurants"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749471735671:android:d90a9c18125c6d61564b72",
+        "android_client_info": {
+          "package_name": "app.trytiptop.tiptop_restaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749471735671-74a7iekctqnoivp26a8mpjm3lrnqs85h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUg4J6t8oLod6_FkHCb5be6FD0wBCOuRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749471735671-74a7iekctqnoivp26a8mpjm3lrnqs85h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "749471735671-fq57prfrqfjarha4st70u2cnnvlak569.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.trytiptop.restaurants"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
