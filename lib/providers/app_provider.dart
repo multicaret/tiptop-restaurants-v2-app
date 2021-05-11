@@ -14,7 +14,6 @@ import 'package:tiptop_v2/models/models.dart';
 import 'package:tiptop_v2/models/user.dart';
 import 'package:tiptop_v2/utils/helper.dart';
 import 'package:tiptop_v2/utils/http_exception.dart';
-import 'package:tiptop_v2/utils/location_helper.dart';
 
 import 'local_storage.dart';
 
@@ -137,7 +136,6 @@ class AppProvider with ChangeNotifier {
     mixpanel.setServerURL("https://api-eu.mixpanel.com");
   }*/
 
-  bool isLocationPermissionGranted = false;
 
   Future<void> bootActions() async {
     initInstaBug();
@@ -149,7 +147,6 @@ class AppProvider with ChangeNotifier {
     // await facebookAppEvents.setAdvertiserTracking(enabled: true);
 
     await checkIfIsFirstOpen();
-    isLocationPermissionGranted = await getLocationPermissionStatus();
 
     // await AddressesProvider().fetchSelectedAddress();
   }
