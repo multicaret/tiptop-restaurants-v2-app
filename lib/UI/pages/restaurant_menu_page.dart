@@ -6,6 +6,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:tiptop_v2/UI/pages/orders_page.dart';
 import 'package:tiptop_v2/UI/pages/profile_page.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_loader.dart';
 import 'package:tiptop_v2/UI/widgets/UI/app_scaffold.dart';
@@ -219,13 +220,18 @@ class _RestaurantMenuPageState extends State<RestaurantMenuPage> {
 
       _oneSignalNotificationsProvider = Provider.of<OneSignalNotificationsProvider>(context);
       if (_oneSignalNotificationsProvider != null && _oneSignalNotificationsProvider.getPayload != null) {
-        _oneSignalNotificationsProvider.initOneSignal();
+        _oneSignalNotificationsProvider.initOneSignal(appProvider);
         if (appProvider.isAuth && appProvider.authUser != null) {
           _oneSignalNotificationsProvider.handleSetExternalUserId(appProvider.authUser.id.toString());
         }
-
         _listener = _oneSignalNotificationsProvider.getPayload.listen(null);
         _listener.onData((event) {
+          Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+              OrdersPage.routeName,
+                  (route) {
+                print(route.settings.name + ' ' + (!(route.settings.name == OrdersPage.routeName)).toString());
+                return !(route.settings.name == OrdersPage.routeName);
+                  });
           print("Is opened: ${OneSignalNotificationsProvider.notificationHasOpened}");
           if (event.additionalData != null) {
             print(event.additionalData.keys.toString());
