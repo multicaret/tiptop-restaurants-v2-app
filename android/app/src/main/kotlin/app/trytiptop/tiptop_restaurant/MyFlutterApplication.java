@@ -19,7 +19,7 @@ public class MyFlutterApplication extends FlutterApplication {
         ArrayList<String> invocationEvents = new ArrayList<>();
         invocationEvents.add(InstabugFlutterPlugin.INVOCATION_EVENT_SHAKE);
         new InstabugFlutterPlugin().start(MyFlutterApplication.this,
-                "fef5f9e45e1b9700234e4bd7447e786d",
+                "b190cd2be05a28170a7c51e907a71477",
                 invocationEvents);
 //        new InstabugFlutterPlugin().start(this,
 //                "82b5d29b0a4494bc9258e2562578037e",
