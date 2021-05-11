@@ -66,7 +66,9 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
                     labelText: 'Email',
                     textDirection: TextDirection.ltr,
                     //remove later
-                    initialValue: 'owner@trytiptop.app',
+                    initialValue: ''
+                    // 'owner@trytiptop.app'
+                    ,
                     onSaved: (value) {
                       loginData['email'] = value;
                     },
@@ -75,7 +77,9 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
                     labelText: 'Password',
                     isPassword: true,
                     textDirection: TextDirection.ltr,
-                    initialValue: 'secret',
+                    initialValue: ''
+                    // 'secret'
+                    ,
                     onSaved: (value) {
                       loginData['password'] = value;
                     },
