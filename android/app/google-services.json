@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "749471735671",
-    "project_id": "restaurants-staging-5a52b",
-    "storage_bucket": "restaurants-staging-5a52b.appspot.com"
+    "project_number": "473197838173",
+    "project_id": "restaurants-production",
+    "storage_bucket": "restaurants-production.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:749471735671:android:c5e03a4d01b3b8e2564b72",
+        "mobilesdk_app_id": "1:473197838173:android:6cf19949ecd5d62572f2b4",
         "android_client_info": {
-          "package_name": "app.trytiptop.restaurants.debug"
+          "package_name": "app.trytiptop.restaurants"
         }
       },
       "oauth_client": [
         {
-          "client_id": "749471735671-74a7iekctqnoivp26a8mpjm3lrnqs85h.apps.googleusercontent.com",
+          "client_id": "473197838173-mr9v64gs2hgboi6v2tlprncvau2q7vnt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCUg4J6t8oLod6_FkHCb5be6FD0wBCOuRE"
+          "current_key": "AIzaSyCGsbu_tAws8GrMa8OyEYa1xc1I2Cg6gIk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "749471735671-74a7iekctqnoivp26a8mpjm3lrnqs85h.apps.googleusercontent.com",
+              "client_id": "473197838173-mr9v64gs2hgboi6v2tlprncvau2q7vnt.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "749471735671-fq57prfrqfjarha4st70u2cnnvlak569.apps.googleusercontent.com",
+              "client_id": "473197838173-5ij26pv0b61r18ftprn1nap2url7g58v.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "app.trytiptop.restaurants"
@@ -43,31 +43,31 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:749471735671:android:d90a9c18125c6d61564b72",
+        "mobilesdk_app_id": "1:473197838173:android:60123f67a179fb6372f2b4",
         "android_client_info": {
           "package_name": "app.trytiptop.tiptop_restaurant"
         }
       },
       "oauth_client": [
         {
-          "client_id": "749471735671-74a7iekctqnoivp26a8mpjm3lrnqs85h.apps.googleusercontent.com",
+          "client_id": "473197838173-mr9v64gs2hgboi6v2tlprncvau2q7vnt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCUg4J6t8oLod6_FkHCb5be6FD0wBCOuRE"
+          "current_key": "AIzaSyCGsbu_tAws8GrMa8OyEYa1xc1I2Cg6gIk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "749471735671-74a7iekctqnoivp26a8mpjm3lrnqs85h.apps.googleusercontent.com",
+              "client_id": "473197838173-mr9v64gs2hgboi6v2tlprncvau2q7vnt.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "749471735671-fq57prfrqfjarha4st70u2cnnvlak569.apps.googleusercontent.com",
+              "client_id": "473197838173-5ij26pv0b61r18ftprn1nap2url7g58v.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "app.trytiptop.restaurants"
