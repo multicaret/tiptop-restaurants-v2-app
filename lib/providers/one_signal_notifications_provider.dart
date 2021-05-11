@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:tiptop_v2/providers/app_provider.dart';
 
 class OneSignalNotificationsProvider with ChangeNotifier {
-  static const String ONE_SIGNAL_APP_ID = "fa5949d9-e5e0-4ae9-a01d-3f2db9a4ecb7";
+  static const String ONE_SIGNAL_APP_ID = "1ccb8fb5-0ed1-41eb-8ff6-140cc9589d08";
   static const bool REQUIRE_CONSENT = false;
   static bool notificationHasOpened = false;
   static bool permissionIsAllowedIOS = false;
